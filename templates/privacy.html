@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — EngineersVilla</title>
+  <link rel="icon" href="{{ url_for('static', filename='5.png') }}" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #020b18;
+      --bg2:      #041020;
+      --surface:  #071628;
+      --card:     rgba(8, 25, 50, 0.75);
+      --blue-d:   #0a2a5e;
+      --blue:     #1557d4;
+      --blue-m:   #2b7fff;
+      --cyan:     #00d4ff;
+      --glow:     #40e0ff;
+      --white:    #eef6ff;
+      --muted:    #6a96c2;
+      --faint:    rgba(43, 127, 255, 0.12);
+      --border:   rgba(43, 127, 255, 0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ── */
+    #cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--cyan); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .1s, width .2s, height .2s, opacity .2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,212,255,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .18s ease, width .25s, height .25s;
+    }
+
+    /* ── Grid BG ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(43,127,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43,127,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3%;
+      background: rgba(2, 11, 24, 0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo { display: flex; align-items: center; gap: .6rem; }
+    .logo-img { height: 36px; width: auto; }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-family: 'Space Mono', monospace; font-size: .78rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-btn {
+      padding: .55rem 1.4rem;
+      background: transparent; border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: .75rem;
+      cursor: pointer; text-decoration: none;
+      transition: background .2s, box-shadow .2s; letter-spacing: .06em;
+    }
+    .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 9rem 6% 5rem;
+      position: relative; z-index: 1;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-scan {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      animation: scan 4s ease-in-out infinite;
+    }
+    @keyframes scan {
+      0%   { top: 0%; opacity: 1; }
+      90%  { top: 100%; opacity: .3; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .tag::before { content: ''; width: 20px; height: 1px; background: var(--cyan); }
+
+    .page-hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+    .page-hero h1 em { font-style: normal; color: var(--cyan); text-shadow: 0 0 40px rgba(0,212,255,.45); }
+
+    .page-meta {
+      display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem;
+    }
+    .meta-item {
+      display: flex; align-items: center; gap: .5rem;
+      font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--muted);
+    }
+    .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+
+    /* ── LAYOUT ── */
+    .content-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 4rem 6%;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 4rem;
+      position: relative; z-index: 1;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR TOC ── */
+    .toc {
+      position: sticky; top: 6rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+      backdrop-filter: blur(10px);
+    }
+    .toc-title {
+      font-family: 'Space Mono', monospace; font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.2rem;
+      padding-bottom: .8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+    .toc-list a {
+      display: block; padding: .45rem .7rem;
+      color: var(--muted); text-decoration: none;
+      font-size: .8rem; border-radius: 6px;
+      transition: color .2s, background .2s;
+      border-left: 2px solid transparent;
+    }
+    .toc-list a:hover {
+      color: var(--cyan); background: var(--faint);
+      border-left-color: var(--cyan);
+    }
+
+    /* ── POLICY CONTENT ── */
+    .policy-body { min-width: 0; }
+
+    .policy-section {
+      margin-bottom: 3.5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .policy-section:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .section-num {
+      font-family: 'Space Mono', monospace; font-size: .68rem;
+      color: var(--blue-m); letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+
+    .policy-section h2 {
+      font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700;
+      letter-spacing: -.02em; margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .policy-section h2::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    .policy-section p {
+      color: rgba(238,246,255,.72); font-size: .93rem; line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-list {
+      list-style: none; margin: 1rem 0;
+      display: flex; flex-direction: column; gap: .6rem;
+    }
+    .policy-list li {
+      display: flex; gap: .8rem; align-items: flex-start;
+      color: rgba(238,246,255,.72); font-size: .93rem; line-height: 1.7;
+    }
+    .policy-list li::before {
+      content: '→'; color: var(--cyan); font-family: 'Space Mono', monospace;
+      font-size: .8rem; flex-shrink: 0; margin-top: .15rem;
+    }
+
+    .highlight-box {
+      background: rgba(0,212,255,.05);
+      border: 1px solid rgba(0,212,255,.2);
+      border-radius: 8px; padding: 1.2rem 1.5rem;
+      margin: 1.2rem 0;
+      font-size: .88rem; color: var(--muted); line-height: 1.8;
+    }
+    .highlight-box strong { color: var(--cyan); }
+
+    .data-table {
+      width: 100%; border-collapse: collapse; margin: 1.2rem 0;
+      font-size: .85rem;
+    }
+    .data-table th {
+      background: var(--faint); color: var(--cyan);
+      font-family: 'Space Mono', monospace; font-size: .7rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .8rem 1rem; text-align: left;
+      border: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: .8rem 1rem; border: 1px solid var(--border);
+      color: rgba(238,246,255,.72); vertical-align: top;
+      line-height: 1.65;
+    }
+    .data-table tr:hover td { background: rgba(43,127,255,.05); }
+
+    /* ── CONTACT CARD ── */
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem; margin-top: 2rem;
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      backdrop-filter: blur(10px);
+    }
+    .contact-card-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 10px; background: var(--faint);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .contact-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: .4rem; }
+    .contact-card p { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+    .contact-card a { color: var(--cyan); text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 2rem 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1;
+    }
+    .foot-logo { display: flex; align-items: center; gap: .5rem; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; }
+    .foot-logo span { color: var(--cyan); }
+    .foot-copy { font-size: .78rem; color: var(--muted); }
+    .foot-links { display: flex; gap: 1.5rem; }
+    .foot-links a { color: var(--muted); text-decoration: none; font-size: .78rem; transition: color .2s; }
+    .foot-links a:hover { color: var(--cyan); }
+
+    /* ── ANIMATIONS ── */
+    .fade { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .fade.vis { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .content-wrap { grid-template-columns: 1fr; }
+      .toc { position: static; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <img src="{{ url_for('static', filename='5.png') }}" alt="EngineersVilla Logo" class="logo-img">
+  </div>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#partners">Partners</a></li>
+    <li><a href="/#about">About Us</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/#contact" class="nav-btn">Enroll Now</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-scan"></div>
+  <div class="tag">Legal Document</div>
+  <h1>Privacy <em>Policy</em></h1>
+  <div class="page-meta">
+    <div class="meta-item"><div class="meta-dot"></div>Effective Date: January 1, 2026</div>
+    <div class="meta-item"><div class="meta-dot"></div>Last Updated: April 26, 2026</div>
+    <div class="meta-item"><div class="meta-dot"></div>Version 2.1</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrap">
+
+  <!-- TOC SIDEBAR -->
+  <aside class="toc fade">
+    <div class="toc-title">// Contents</div>
+    <ul class="toc-list">
+      <li><a href="#overview">01 — Overview</a></li>
+      <li><a href="#data-collected">02 — Data We Collect</a></li>
+      <li><a href="#how-we-use">03 — How We Use Data</a></li>
+      <li><a href="#sharing">04 — Sharing & Disclosure</a></li>
+      <li><a href="#cookies">05 — Cookies</a></li>
+      <li><a href="#retention">06 — Data Retention</a></li>
+      <li><a href="#your-rights">07 — Your Rights</a></li>
+      <li><a href="#security">08 — Security</a></li>
+      <li><a href="#children">09 — Children's Privacy</a></li>
+      <li><a href="#changes">10 — Policy Changes</a></li>
+      <li><a href="#contact">11 — Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <!-- POLICY BODY -->
+  <main class="policy-body">
+
+    <div class="policy-section fade" id="overview">
+      <div class="section-num">// 01</div>
+      <h2>Overview</h2>
+      <p>Welcome to EngineersVilla. We are committed to protecting your privacy and handling your personal information with full transparency. This Privacy Policy explains how EngineersVilla ("we," "our," or "us") collects, uses, stores, and protects information when you use our platform, enroll in programs, or interact with our services.</p>
+      <p>By accessing our website at <strong>engineersvilla.in</strong> or enrolling in any of our programs, you agree to the practices described in this policy. If you do not agree, please discontinue use of our platform.</p>
+      <div class="highlight-box">
+        <strong>TL;DR:</strong> We collect only what we need, use it only to serve you better, never sell your data, and give you full control over what you share with us.
+      </div>
+    </div>
+
+    <div class="policy-section fade" id="data-collected">
+      <div class="section-num">// 02</div>
+      <h2>Data We Collect</h2>
+      <p>We collect information in two ways: information you give us directly, and information collected automatically when you use our platform.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Examples</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Identity Data</td>
+            <td>Full name, student ID, date of birth</td>
+            <td>Enrollment form</td>
+          </tr>
+          <tr>
+            <td>Contact Data</td>
+            <td>Email address, phone number, college name</td>
+            <td>Registration / Contact form</td>
+          </tr>
+          <tr>
+            <td>Academic Data</td>
+            <td>Program enrolled, progress, project submissions</td>
+            <td>Platform activity</td>
+          </tr>
+          <tr>
+            <td>Payment Data</td>
+            <td>Transaction ID, payment status (not card details)</td>
+            <td>Payment gateway (encrypted)</td>
+          </tr>
+          <tr>
+            <td>Technical Data</td>
+            <td>IP address, browser type, device info, cookies</td>
+            <td>Automatic collection</td>
+          </tr>
+          <tr>
+            <td>Usage Data</td>
+            <td>Pages visited, time spent, clicks, preferences</td>
+            <td>Analytics tools</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>We do <strong>not</strong> collect sensitive personal information such as caste, religion, political opinions, biometric data, or financial account details.</p>
+    </div>
+
+    <div class="policy-section fade" id="how-we-use">
+      <div class="section-num">// 03</div>
+      <h2>How We Use Your Data</h2>
+      <p>Your data is used exclusively to deliver, improve, and personalize your experience on EngineersVilla. Specifically, we use your information to:</p>
+      <ul class="policy-list">
+        <li>Process enrollments and manage your student account</li>
+        <li>Deliver course content, track your learning progress, and issue certificates</li>
+        <li>Communicate important updates, schedules, and announcements</li>
+        <li>Send program recommendations and career opportunities aligned with your skills</li>
+        <li>Connect you with hiring partners based on your program completion and consent</li>
+        <li>Improve platform features and fix bugs using aggregated, anonymized analytics</li>
+        <li>Comply with legal obligations and respond to lawful requests</li>
+        <li>Prevent fraud, misuse, and unauthorized access to our platform</li>
+      </ul>
+      <p>We will never use your data for purposes incompatible with why you provided it, and we will not send you unsolicited marketing without your explicit consent.</p>
+    </div>
+
+    <div class="policy-section fade" id="sharing">
+      <div class="section-num">// 04</div>
+      <h2>Sharing &amp; Disclosure</h2>
+      <p>EngineersVilla does <strong>not sell, rent, or trade</strong> your personal information to third parties. We share data only in the following limited circumstances:</p>
+      <ul class="policy-list">
+        <li><strong>Hiring Partners</strong> — Only with your explicit consent when you opt into job placement services. Partners receive only your resume and program certification data.</li>
+        <li><strong>Service Providers</strong> — Trusted vendors (e.g., email providers, cloud hosting, payment gateways) who process data on our behalf under strict confidentiality agreements.</li>
+        <li><strong>Legal Requirements</strong> — When required by Indian law, a court order, or regulatory authority.</li>
+        <li><strong>Safety</strong> — If disclosure is necessary to protect the safety of any person or to address fraud or security threats.</li>
+        <li><strong>Business Transfers</strong> — In the event of a merger or acquisition, your data would be transferred with full notice provided to you beforehand.</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>Note:</strong> All third-party partners we work with are contractually obligated to handle your data in compliance with this policy and applicable data protection laws.
+      </div>
+    </div>
+
+    <div class="policy-section fade" id="cookies">
+      <div class="section-num">// 05</div>
+      <h2>Cookies &amp; Tracking</h2>
+      <p>We use cookies and similar technologies to enhance your browsing experience and understand how our platform is used. Cookies are small text files stored on your device.</p>
+      <ul class="policy-list">
+        <li><strong>Essential Cookies</strong> — Required for the platform to function (login sessions, security tokens). Cannot be disabled.</li>
+        <li><strong>Functional Cookies</strong> — Remember your preferences, such as language and theme settings.</li>
+        <li><strong>Analytics Cookies</strong> — Collect anonymized data about usage patterns to help us improve the platform.</li>
+        <li><strong>Marketing Cookies</strong> — Used only with your consent to show relevant program recommendations.</li>
+      </ul>
+      <p>You can control cookie preferences through your browser settings. Disabling certain cookies may affect platform functionality. We do not use cross-site tracking or fingerprinting technologies.</p>
+    </div>
+
+    <div class="policy-section fade" id="retention">
+      <div class="section-num">// 06</div>
+      <h2>Data Retention</h2>
+      <p>We retain your personal information only for as long as necessary to fulfill the purposes described in this policy, or as required by law.</p>
+      <ul class="policy-list">
+        <li><strong>Active Students</strong> — Data retained throughout your enrollment and for 3 years after program completion to support certification verification.</li>
+        <li><strong>Inactive Accounts</strong> — Accounts with no activity for 2 years will be flagged for deletion, with prior email notice.</li>
+        <li><strong>Contact Inquiries</strong> — Messages submitted via our contact form are retained for 12 months.</li>
+        <li><strong>Financial Records</strong> — Payment transaction records retained for 7 years as required under Indian tax law.</li>
+        <li><strong>Legal Holds</strong> — Data may be retained longer if subject to a pending legal matter.</li>
+      </ul>
+      <p>Upon deletion, your data is permanently erased from our systems and all backup stores within 30 days.</p>
+    </div>
+
+    <div class="policy-section fade" id="your-rights">
+      <div class="section-num">// 07</div>
+      <h2>Your Rights</h2>
+      <p>You have the following rights regarding your personal data under the Digital Personal Data Protection Act, 2023 (India):</p>
+      <ul class="policy-list">
+        <li><strong>Access</strong> — Request a copy of the personal data we hold about you.</li>
+        <li><strong>Correction</strong> — Request correction of inaccurate or incomplete data.</li>
+        <li><strong>Erasure</strong> — Request deletion of your personal data, subject to legal retention requirements.</li>
+        <li><strong>Portability</strong> — Receive your data in a structured, machine-readable format.</li>
+        <li><strong>Withdraw Consent</strong> — Withdraw consent for processing at any time, without affecting prior lawful processing.</li>
+        <li><strong>Grievance Redressal</strong> — Lodge a complaint with our Data Protection Officer or the relevant authority.</li>
+      </ul>
+      <p>To exercise any of these rights, email us at <strong style="color:var(--cyan)">privacy@engineersvilla.in</strong>. We will respond within 30 days of receiving your request.</p>
+    </div>
+
+    <div class="policy-section fade" id="security">
+      <div class="section-num">// 08</div>
+      <h2>Security</h2>
+      <p>We implement industry-standard technical and organizational measures to protect your personal data from unauthorized access, loss, or misuse. Our security practices include:</p>
+      <ul class="policy-list">
+        <li>TLS/HTTPS encryption for all data in transit</li>
+        <li>AES-256 encryption for sensitive data at rest</li>
+        <li>Role-based access control — only authorized personnel can access student data</li>
+        <li>Regular security audits and vulnerability assessments</li>
+        <li>Multi-factor authentication for all administrative accounts</li>
+        <li>Incident response protocols and breach notification procedures</li>
+      </ul>
+      <p>In the unlikely event of a data breach that poses risk to your rights, we will notify you within 72 hours of becoming aware, in accordance with applicable law.</p>
+    </div>
+
+    <div class="policy-section fade" id="children">
+      <div class="section-num">// 09</div>
+      <h2>Children's Privacy</h2>
+      <p>EngineersVilla's programs are designed for students aged 18 and above. We do not knowingly collect personal information from individuals under the age of 18 without verified parental consent.</p>
+      <p>If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately at <strong style="color:var(--cyan)">privacy@engineersvilla.in</strong> and we will promptly delete such information from our systems.</p>
+    </div>
+
+    <div class="policy-section fade" id="changes">
+      <div class="section-num">// 10</div>
+      <h2>Policy Changes</h2>
+      <p>We may update this Privacy Policy periodically to reflect changes in our practices, technology, or legal requirements. When we make material changes, we will:</p>
+      <ul class="policy-list">
+        <li>Update the "Last Updated" date at the top of this page</li>
+        <li>Send an email notification to registered users at least 14 days before the change takes effect</li>
+        <li>Display a prominent notice on our platform</li>
+      </ul>
+      <p>Your continued use of EngineersVilla after the effective date of any changes constitutes your acceptance of the updated policy. We encourage you to review this page periodically.</p>
+    </div>
+
+    <div class="policy-section fade" id="contact">
+      <div class="section-num">// 11</div>
+      <h2>Contact Us</h2>
+      <p>If you have any questions, concerns, or requests related to this Privacy Policy or your personal data, please reach out to us through any of the following channels:</p>
+
+      <div class="contact-card">
+        <div class="contact-card-icon">🔒</div>
+        <div>
+          <h4>Data Protection Officer</h4>
+          <p>
+            EngineersVilla, Kochi, Kerala, India — 682001<br>
+            Email: <a href="mailto:privacy@engineersvilla.in">privacy@engineersvilla.in</a><br>
+            Phone: <a href="tel:+919876543210">+91 98765 43210</a><br>
+            Response time: within 30 business days
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Engineers<span>Villa</span></div>
+  <div class="foot-copy">© 2026 EngineersVilla. Built for students, by engineers.</div>
+  <div class="foot-links">
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms-of-use">Terms Of Use</a>
+  </div>
+</footer>
+
+<script>
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
+  });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='16px'; cur.style.height='16px'; ring.style.width='52px'; ring.style.height='52px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='10px'; cur.style.height='10px'; ring.style.width='36px'; ring.style.height='36px'; });
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

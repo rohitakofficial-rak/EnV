@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms of Use — EngineersVilla</title>
+  <link rel="icon" href="{{ url_for('static', filename='5.png') }}" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #020b18;
+      --bg2:      #041020;
+      --surface:  #071628;
+      --card:     rgba(8, 25, 50, 0.75);
+      --blue-d:   #0a2a5e;
+      --blue:     #1557d4;
+      --blue-m:   #2b7fff;
+      --cyan:     #00d4ff;
+      --glow:     #40e0ff;
+      --white:    #eef6ff;
+      --muted:    #6a96c2;
+      --faint:    rgba(43, 127, 255, 0.12);
+      --border:   rgba(43, 127, 255, 0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    #cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--cyan); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .1s, width .2s, height .2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,212,255,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .18s ease, width .25s, height .25s;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(43,127,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43,127,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3%;
+      background: rgba(2, 11, 24, 0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: .6rem; }
+    .logo-img { height: 36px; width: auto; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-family: 'Space Mono', monospace; font-size: .78rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-btn {
+      padding: .55rem 1.4rem; background: transparent; border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 4px; font-family: 'Space Mono', monospace; font-size: .75rem;
+      cursor: pointer; text-decoration: none; transition: background .2s, box-shadow .2s; letter-spacing: .06em;
+    }
+    .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 9rem 6% 5rem;
+      position: relative; z-index: 1;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-scan {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      animation: scan 4s ease-in-out infinite;
+    }
+    @keyframes scan {
+      0%   { top: 0%; opacity: 1; }
+      90%  { top: 100%; opacity: .3; }
+      100% { top: 100%; opacity: 0; }
+    }
+    .tag {
+      font-family: 'Space Mono', monospace; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem;
+    }
+    .tag::before { content: ''; width: 20px; height: 1px; background: var(--cyan); }
+    .page-hero h1 {
+      font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -.03em; margin-bottom: 1rem;
+    }
+    .page-hero h1 em { font-style: normal; color: var(--cyan); text-shadow: 0 0 40px rgba(0,212,255,.45); }
+    .page-meta { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .meta-item { display: flex; align-items: center; gap: .5rem; font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--muted); }
+    .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+
+    /* ── LAYOUT ── */
+    .content-wrap {
+      max-width: 1100px; margin: 0 auto; padding: 4rem 6%;
+      display: grid; grid-template-columns: 240px 1fr; gap: 4rem;
+      position: relative; z-index: 1; align-items: start;
+    }
+
+    .toc {
+      position: sticky; top: 6rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem; backdrop-filter: blur(10px);
+    }
+    .toc-title {
+      font-family: 'Space Mono', monospace; font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 1.2rem; padding-bottom: .8rem; border-bottom: 1px solid var(--border);
+    }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+    .toc-list a {
+      display: block; padding: .45rem .7rem; color: var(--muted); text-decoration: none;
+      font-size: .8rem; border-radius: 6px; transition: color .2s, background .2s;
+      border-left: 2px solid transparent;
+    }
+    .toc-list a:hover { color: var(--cyan); background: var(--faint); border-left-color: var(--cyan); }
+
+    /* ── POLICY CONTENT ── */
+    .policy-body { min-width: 0; }
+    .policy-section { margin-bottom: 3.5rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); }
+    .policy-section:last-child { border-bottom: none; margin-bottom: 0; }
+    .section-num { font-family: 'Space Mono', monospace; font-size: .68rem; color: var(--blue-m); letter-spacing: .1em; text-transform: uppercase; margin-bottom: .6rem; }
+    .policy-section h2 {
+      font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700;
+      letter-spacing: -.02em; margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .policy-section h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+    .policy-section p { color: rgba(238,246,255,.72); font-size: .93rem; line-height: 1.85; margin-bottom: 1rem; }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-list { list-style: none; margin: 1rem 0; display: flex; flex-direction: column; gap: .6rem; }
+    .policy-list li { display: flex; gap: .8rem; align-items: flex-start; color: rgba(238,246,255,.72); font-size: .93rem; line-height: 1.7; }
+    .policy-list li::before { content: '→'; color: var(--cyan); font-family: 'Space Mono', monospace; font-size: .8rem; flex-shrink: 0; margin-top: .15rem; }
+
+    .highlight-box {
+      background: rgba(0,212,255,.05); border: 1px solid rgba(0,212,255,.2);
+      border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.2rem 0;
+      font-size: .88rem; color: var(--muted); line-height: 1.8;
+    }
+    .highlight-box strong { color: var(--cyan); }
+
+    .warn-box {
+      background: rgba(250,204,21,.04); border: 1px solid rgba(250,204,21,.2);
+      border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.2rem 0;
+      font-size: .88rem; color: rgba(250,204,21,.8); line-height: 1.8;
+    }
+    .warn-box strong { color: #facc15; }
+
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem; margin-top: 2rem;
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      backdrop-filter: blur(10px);
+    }
+    .contact-card-icon {
+      width: 48px; height: 48px; flex-shrink: 0; border-radius: 10px;
+      background: var(--faint); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    }
+    .contact-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: .4rem; }
+    .contact-card p { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+    .contact-card a { color: var(--cyan); text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 2rem 6%; display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1;
+    }
+    .foot-logo { display: flex; align-items: center; gap: .5rem; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; }
+    .foot-logo span { color: var(--cyan); }
+    .foot-copy { font-size: .78rem; color: var(--muted); }
+    .foot-links { display: flex; gap: 1.5rem; }
+    .foot-links a { color: var(--muted); text-decoration: none; font-size: .78rem; transition: color .2s; }
+    .foot-links a:hover { color: var(--cyan); }
+
+    .fade { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .fade.vis { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 860px) {
+      .content-wrap { grid-template-columns: 1fr; }
+      .toc { position: static; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <div class="logo">
+    <img src="{{ url_for('static', filename='5.png') }}" alt="EngineersVilla Logo" class="logo-img">
+  </div>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#partners">Partners</a></li>
+    <li><a href="/#about">About Us</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/#contact" class="nav-btn">Enroll Now</a>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-scan"></div>
+  <div class="tag">Legal Document</div>
+  <h1>Terms <em>of Use</em></h1>
+  <div class="page-meta">
+    <div class="meta-item"><div class="meta-dot"></div>Effective Date: January 1, 2026</div>
+    <div class="meta-item"><div class="meta-dot"></div>Last Updated: April 26, 2026</div>
+    <div class="meta-item"><div class="meta-dot"></div>Version 2.1</div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <aside class="toc fade">
+    <div class="toc-title">// Contents</div>
+    <ul class="toc-list">
+      <li><a href="#acceptance">01 — Acceptance</a></li>
+      <li><a href="#eligibility">02 — Eligibility</a></li>
+      <li><a href="#accounts">03 — User Accounts</a></li>
+      <li><a href="#programs">04 — Programs & Enrollment</a></li>
+      <li><a href="#payments">05 — Payments & Refunds</a></li>
+      <li><a href="#conduct">06 — Acceptable Use</a></li>
+      <li><a href="#ip">07 — Intellectual Property</a></li>
+      <li><a href="#content">08 — User Content</a></li>
+      <li><a href="#disclaimers">09 — Disclaimers</a></li>
+      <li><a href="#liability">10 — Limitation of Liability</a></li>
+      <li><a href="#termination">11 — Termination</a></li>
+      <li><a href="#governing">12 — Governing Law</a></li>
+      <li><a href="#contact">13 — Contact Us</a></li>
+    </ul>
+  </aside>
+
+  <main class="policy-body">
+
+    <div class="policy-section fade" id="acceptance">
+      <div class="section-num">// 01</div>
+      <h2>Acceptance of Terms</h2>
+      <p>These Terms of Use ("Terms") govern your access to and use of the EngineersVilla platform, including our website at <strong>engineersvilla.in</strong>, mobile applications, training programs, and all related services (collectively, the "Platform").</p>
+      <p>By registering an account, enrolling in a program, or simply browsing our website, you confirm that you have read, understood, and agree to be legally bound by these Terms and our Privacy Policy. If you are accessing our platform on behalf of a college or organization, you represent that you have the authority to bind that entity to these Terms.</p>
+      <div class="warn-box">
+        <strong>Important:</strong> If you do not agree to these Terms in their entirety, you must not access or use the EngineersVilla platform or enroll in any of our programs.
+      </div>
+    </div>
+
+    <div class="policy-section fade" id="eligibility">
+      <div class="section-num">// 02</div>
+      <h2>Eligibility</h2>
+      <p>To use EngineersVilla's platform and enroll in programs, you must meet the following criteria:</p>
+      <ul class="policy-list">
+        <li>Be at least 18 years of age, or have verifiable consent from a parent or legal guardian</li>
+        <li>Be a currently enrolled or recently graduated student from a recognized educational institution, or a working professional seeking skill development</li>
+        <li>Provide accurate and complete registration information</li>
+        <li>Not be subject to any prior ban or suspension from our platform</li>
+        <li>Have the legal capacity to enter into binding agreements under Indian law</li>
+      </ul>
+      <p>EngineersVilla reserves the right to verify eligibility at any time and to suspend or terminate accounts that do not meet these requirements.</p>
+    </div>
+
+    <div class="policy-section fade" id="accounts">
+      <div class="section-num">// 03</div>
+      <h2>User Accounts</h2>
+      <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to:</p>
+      <ul class="policy-list">
+        <li>Create only one account per person; multiple accounts for the same individual are prohibited</li>
+        <li>Provide accurate, current, and complete information during registration</li>
+        <li>Promptly update your information if it changes</li>
+        <li>Notify us immediately at <strong style="color:var(--cyan)">hello@engineersvilla.in</strong> if you suspect any unauthorized access to your account</li>
+        <li>Never share your login credentials with any other person</li>
+        <li>Log out of your account after each session on shared devices</li>
+      </ul>
+      <p>EngineersVilla will not be liable for any loss or damage arising from your failure to protect your account credentials.</p>
+    </div>
+
+    <div class="policy-section fade" id="programs">
+      <div class="section-num">// 04</div>
+      <h2>Programs &amp; Enrollment</h2>
+      <p>EngineersVilla offers a variety of technical training programs including Embedded Systems, Full-Stack Web Development, AI & Machine Learning, IoT Engineering, PCB Design, Cloud & DevOps, Cybersecurity, and Mobile App Development, among others.</p>
+      <ul class="policy-list">
+        <li><strong>Program Access</strong> — Upon successful enrollment and payment confirmation, you will receive access to the relevant course materials, live sessions, and mentorship resources.</li>
+        <li><strong>Duration & Schedule</strong> — Programs run for fixed durations as specified at the time of enrollment. Schedules are subject to change with at least 7 days' prior notice.</li>
+        <li><strong>Certificates</strong> — Certificates of completion are issued upon satisfying all program requirements including project submissions and attendance criteria. Certificates remain property of EngineersVilla and may be revoked for academic dishonesty.</li>
+        <li><strong>Placement Assistance</strong> — Placement support is offered on a best-effort basis and does not constitute a guarantee of employment.</li>
+        <li><strong>Program Changes</strong> — EngineersVilla reserves the right to update curriculum content, instructors, or delivery format to maintain quality and relevance.</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>Note:</strong> Program availability, batch sizes, and prerequisites may vary. Always refer to the specific program page for the most current details before enrolling.
+      </div>
+    </div>
+
+    <div class="policy-section fade" id="payments">
+      <div class="section-num">// 05</div>
+      <h2>Payments &amp; Refunds</h2>
+      <p>All fees are displayed in Indian Rupees (INR) and are inclusive of applicable taxes. Payment is required in full at the time of enrollment unless an installment plan has been explicitly offered and agreed upon.</p>
+      <ul class="policy-list">
+        <li><strong>Payment Methods</strong> — We accept UPI, net banking, debit/credit cards, and EMI options through our payment partners. All transactions are secured via industry-standard encryption.</li>
+        <li><strong>Refund Window</strong> — A full refund is available if requested within 7 days of enrollment, provided no more than 15% of the program content has been accessed.</li>
+        <li><strong>No Refund</strong> — No refunds will be issued after the 7-day window, after certificate issuance, or in cases of program termination due to violation of these Terms.</li>
+        <li><strong>Program Cancellation</strong> — If EngineersVilla cancels a program before it begins, you will receive a full refund within 10 business days. If cancelled mid-program, a prorated refund will be issued.</li>
+        <li><strong>Disputes</strong> — Payment disputes must be raised within 30 days of the transaction by contacting <strong style="color:var(--cyan)">billing@engineersvilla.in</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section fade" id="conduct">
+      <div class="section-num">// 06</div>
+      <h2>Acceptable Use</h2>
+      <p>You agree to use the EngineersVilla platform only for lawful, constructive purposes consistent with these Terms. You must not:</p>
+      <ul class="policy-list">
+        <li>Submit work that is plagiarized, copied, or generated entirely by AI without disclosure</li>
+        <li>Share, resell, or redistribute any course material, recordings, or proprietary content without written permission</li>
+        <li>Harass, intimidate, or discriminate against instructors, mentors, or fellow students</li>
+        <li>Attempt to gain unauthorized access to any part of our systems, databases, or infrastructure</li>
+        <li>Upload malicious code, viruses, or any content intended to harm the platform or its users</li>
+        <li>Misrepresent your identity, credentials, or affiliation in any interaction on the platform</li>
+        <li>Use the platform for commercial solicitation, advertising, or spam without prior approval</li>
+        <li>Engage in any activity that violates Indian law or applicable international regulations</li>
+      </ul>
+      <p>Violations may result in immediate account suspension, cancellation of enrollment without refund, and referral to appropriate legal authorities where warranted.</p>
+    </div>
+
+    <div class="policy-section fade" id="ip">
+      <div class="section-num">// 07</div>
+      <h2>Intellectual Property</h2>
+      <p>All content on the EngineersVilla platform — including but not limited to course materials, video lectures, assessments, design assets, brand elements, logos, code samples, and documentation — is the exclusive intellectual property of EngineersVilla or its licensed content partners.</p>
+      <ul class="policy-list">
+        <li>You are granted a limited, non-exclusive, non-transferable license to access enrolled course content for personal educational use only</li>
+        <li>You may not copy, reproduce, distribute, create derivative works from, or publicly display any platform content without explicit written permission</li>
+        <li>Screen recording, downloading, or mirroring of video content is strictly prohibited</li>
+        <li>Any unauthorized use of our intellectual property may result in legal action under the Copyright Act, 1957 and other applicable Indian IP laws</li>
+      </ul>
+      <p>Your own original project work submitted as part of a program remains your intellectual property. By submitting it, you grant EngineersVilla a non-exclusive license to showcase it in our portfolio, marketing materials, or case studies, with attribution.</p>
+    </div>
+
+    <div class="policy-section fade" id="content">
+      <div class="section-num">// 08</div>
+      <h2>User Content</h2>
+      <p>You may submit content to our platform including forum posts, project files, feedback, and messages ("User Content"). By submitting User Content, you represent that:</p>
+      <ul class="policy-list">
+        <li>You own or have the necessary rights to the content you submit</li>
+        <li>Your content does not infringe any third-party intellectual property, privacy, or other rights</li>
+        <li>Your content is not defamatory, obscene, hateful, or otherwise unlawful</li>
+        <li>You grant EngineersVilla a worldwide, royalty-free license to use, display, and reproduce User Content solely for platform operation and improvement purposes</li>
+      </ul>
+      <p>EngineersVilla reserves the right to remove any User Content that violates these Terms or that we deem inappropriate, without prior notice.</p>
+    </div>
+
+    <div class="policy-section fade" id="disclaimers">
+      <div class="section-num">// 09</div>
+      <h2>Disclaimers</h2>
+      <p>EngineersVilla provides its platform and programs on an "as available" basis. While we strive for the highest quality, we make no warranties, express or implied, including:</p>
+      <ul class="policy-list">
+        <li>That the platform will be uninterrupted, error-free, or free of viruses or harmful components</li>
+        <li>That program content will be suitable for every individual's specific career goals or skill level</li>
+        <li>That completion of any program guarantees employment, a salary increase, or any specific professional outcome</li>
+        <li>That all information provided is complete, accurate, or current at all times</li>
+      </ul>
+      <div class="warn-box">
+        <strong>Job Placement Disclaimer:</strong> Placement assistance is provided in good faith as a supplementary service. EngineersVilla does not guarantee interviews, offers, or employment with any partner company.
+      </div>
+    </div>
+
+    <div class="policy-section fade" id="liability">
+      <div class="section-num">// 10</div>
+      <h2>Limitation of Liability</h2>
+      <p>To the fullest extent permitted by applicable law, EngineersVilla and its directors, employees, instructors, and partners shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the platform.</p>
+      <p>In no event shall our total aggregate liability to you for any claim related to these Terms or the Platform exceed the total amount you paid to EngineersVilla in the 90 days preceding the event giving rise to the claim.</p>
+      <p>Some jurisdictions do not allow the exclusion or limitation of certain warranties or liability, so some of the above limitations may not apply to you.</p>
+    </div>
+
+    <div class="policy-section fade" id="termination">
+      <div class="section-num">// 11</div>
+      <h2>Termination</h2>
+      <p>Either party may terminate the relationship governed by these Terms under the following circumstances:</p>
+      <ul class="policy-list">
+        <li><strong>By You</strong> — You may close your account at any time by contacting us. Refund eligibility will be assessed per our Refund Policy (Section 05).</li>
+        <li><strong>By EngineersVilla (with notice)</strong> — We may terminate your account with 7 days' notice if we discontinue the platform or specific programs.</li>
+        <li><strong>By EngineersVilla (immediate)</strong> — We may suspend or terminate your account without notice for material violations of these Terms, including fraudulent activity, harassment, or academic dishonesty.</li>
+      </ul>
+      <p>Upon termination, your right to access the platform ceases immediately. Sections of these Terms that by their nature should survive termination (including IP, liability, and governing law sections) shall continue to apply.</p>
+    </div>
+
+    <div class="policy-section fade" id="governing">
+      <div class="section-num">// 12</div>
+      <h2>Governing Law &amp; Disputes</h2>
+      <p>These Terms shall be governed by and construed in accordance with the laws of India, without regard to conflict of law principles. The courts of Ernakulam, Kerala, India shall have exclusive jurisdiction over any disputes arising from these Terms.</p>
+      <ul class="policy-list">
+        <li><strong>Informal Resolution</strong> — Before initiating formal proceedings, both parties agree to attempt good-faith resolution within 30 days of written notice of a dispute.</li>
+        <li><strong>Arbitration</strong> — If informal resolution fails, disputes shall be referred to binding arbitration under the Arbitration and Conciliation Act, 1996 (India), with a sole arbitrator agreed upon by both parties.</li>
+        <li><strong>Exceptions</strong> — Either party may seek injunctive or equitable relief from a court of competent jurisdiction without first pursuing arbitration.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section fade" id="contact">
+      <div class="section-num">// 13</div>
+      <h2>Contact Us</h2>
+      <p>If you have questions about these Terms, wish to report a violation, or need assistance with your account, please contact us:</p>
+
+      <div class="contact-card">
+        <div class="contact-card-icon">⚖️</div>
+        <div>
+          <h4>Legal & Compliance Team</h4>
+          <p>
+            EngineersVilla, Kochi, Kerala, India — 682001<br>
+            Email: <a href="mailto:legal@engineersvilla.in">legal@engineersvilla.in</a><br>
+            General Enquiries: <a href="mailto:hello@engineersvilla.in">hello@engineersvilla.in</a><br>
+            Phone: <a href="tel:+919876543210">+91 98765 43210</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="foot-logo">Engineers<span>Villa</span></div>
+  <div class="foot-copy">© 2026 EngineersVilla. Built for students, by engineers.</div>
+  <div class="foot-links">
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms-of-use">Terms Of Use</a>
+  </div>
+</footer>
+
+<script>
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
+  });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='16px'; cur.style.height='16px'; ring.style.width='52px'; ring.style.height='52px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='10px'; cur.style.height='10px'; ring.style.width='36px'; ring.style.height='36px'; });
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
