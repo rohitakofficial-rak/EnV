@@ -43,6 +43,7 @@
       transform: translate(-50%,-50%);
       transition: transform .1s, width .2s, height .2s, opacity .2s;
       mix-blend-mode: screen;
+      opacity: 0; /* hidden until first mousemove */
     }
     #cursor-ring {
       position: fixed; width: 36px; height: 36px;
@@ -50,6 +51,12 @@
       pointer-events: none; z-index: 9998;
       transform: translate(-50%,-50%);
       transition: transform .18s ease, width .25s, height .25s;
+      opacity: 0; /* hidden until first mousemove */
+    }
+    @media (hover: none) and (pointer: coarse) {
+      /* Touch devices — hide custom cursor, restore default */
+      #cursor, #cursor-ring { display: none !important; }
+      body { cursor: auto; }
     }
 
     /* ── Grid BG ── */
@@ -133,7 +140,48 @@
       box-shadow: 0 0 18px rgba(0,212,255,.25);
     }
 
-    /* ── HERO ── */
+    /* ── Hamburger ── */
+    .hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+      z-index: 201;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: transform .3s, opacity .3s, width .3s;
+      transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 11, 24, 0.97);
+      backdrop-filter: blur(20px);
+      z-index: 199;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.2rem; color: var(--white);
+      text-decoration: none; letter-spacing: .08em;
+      transition: color .2s;
+    }
+    .mobile-nav a:hover, .mobile-nav a.nav-btn { color: var(--cyan); }
+    .mobile-nav .nav-btn {
+      padding: .85rem 2.5rem;
+      border: 1px solid var(--cyan);
+      border-radius: 4px; color: var(--cyan);
+      font-size: 1rem; margin-top: 1rem;
+    }
     #home {
       min-height: 100vh;
       display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
@@ -515,14 +563,34 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .nav-links { display: none; }
+      .nav-btn { display: none; } /* hide desktop enroll button */
+      .hamburger { display: flex; }
       .hero-float { display: none; }
-      .about-layout, .contact-layout { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: 1fr; }
+      .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
       .row2 { grid-template-columns: 1fr; }
+      nav { padding: 1rem 5%; }
+      .logo-text { font-size: 1rem; }
     }
     @media (max-width: 600px) {
-      h1 { font-size: 2.4rem; }
-      .wrap { padding: 4rem 5%; }
+      h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+      h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .wrap { padding: 3.5rem 5%; }
+      #home { padding: 8rem 5% 4rem; }
+      .hero-code { font-size: .75rem; max-width: 100%; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-outline { width: 100%; text-align: center; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .partners-top { flex-direction: column; align-items: flex-start; }
+      .partners-top .btn-outline { width: 100%; text-align: center; }
+      .partners-grid { grid-template-columns: 1fr; }
+      .c-form { padding: 1.5rem; }
+      .programs-strip { padding: 3rem 5%; }
+      .strip-items { gap: .7rem; }
+      .strip-item { font-size: .75rem; padding: .5rem 1rem; }
+      footer { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+      .foot-links { justify-content: center; }
+      .logo-subtext { font-size: .58rem; }
     }
   </style>
 </head>
@@ -549,7 +617,19 @@
     <li><a href="#contact-us">Contact Us</a></li>
   </ul>
   <a href="#contact-us" class="nav-btn">Enroll Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile Nav Drawer -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#home" class="mobile-link">Home</a>
+  <a href="#partners" class="mobile-link">Partners</a>
+  <a href="#about-us" class="mobile-link">About Us</a>
+  <a href="#contact-us" class="mobile-link">Contact Us</a>
+  <a href="#contact-us" class="nav-btn mobile-link">Enroll Now</a>
+</div>
 
 <!-- HERO -->
 <section id="home">
@@ -871,10 +951,16 @@
 </footer>
 
 <script>
-  // Custom cursor
+  // Custom cursor — only activate on real mouse devices
   const cur = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
+  let cursorActive = false;
   document.addEventListener('mousemove', e => {
+    if (!cursorActive) {
+      cursorActive = true;
+      cur.style.opacity = '1';
+      ring.style.opacity = '1';
+    }
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
     setTimeout(() => {
@@ -890,6 +976,22 @@
     el.addEventListener('mouseleave', () => {
       cur.style.width = '10px'; cur.style.height = '10px';
       ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
     });
   });
 
