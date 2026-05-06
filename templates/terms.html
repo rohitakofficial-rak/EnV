@@ -280,9 +280,9 @@
     <li><a href="/">Home</a></li>
     <li><a href="/#partners">Partners</a></li>
     <li><a href="/#about">About Us</a></li>
-    <li><a href="/#contact">Contact</a></li>
+    <li><a href="/#contact-us">Contact</a></li>
   </ul>
-  <a href="/#contact" class="nav-btn">Enroll Now</a>
+  <a href="/#contact-us" class="nav-btn">Enroll Now</a>
   <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
 
@@ -291,8 +291,8 @@
   <a href="/" class="mobile-link">Home</a>
   <a href="/#partners" class="mobile-link">Partners</a>
   <a href="/#about" class="mobile-link">About Us</a>
-  <a href="/#contact" class="mobile-link">Contact</a>
-  <a href="/#contact" class="nav-btn mobile-link">Enroll Now</a>
+  <a href="/#contact-us" class="mobile-link">Contact</a>
+  <a href="/#contact-us" class="nav-btn mobile-link">Enroll Now</a>
 </div>
 
 <div class="page-hero">
@@ -323,7 +323,7 @@
       <li><a href="#liability">10 — Limitation of Liability</a></li>
       <li><a href="#termination">11 — Termination</a></li>
       <li><a href="#governing">12 — Governing Law</a></li>
-      <li><a href="#contact">13 — Contact Us</a></li>
+      <li><a href="#contact-section">13 — Contact Us</a></li>
     </ul>
   </aside>
 
@@ -486,7 +486,7 @@
       </ul>
     </div>
 
-    <div class="policy-section fade" id="contact">
+    <div class="policy-section fade" id="contact-section">
       <div class="section-num">// 13</div>
       <h2>Contact Us</h2>
       <p>If you have questions about these Terms, wish to report a violation, or need assistance with your account, please contact us:</p>
@@ -511,8 +511,8 @@
 <footer>
   <div class="foot-copy">© 2026 EngineersVilla.</div>
   <div class="foot-links">
-    <a href="/privacy-policy">Privacy Policy</a>
-    <a href="/terms-of-use">Terms Of Use</a>
+    <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+    <a href="{{ url_for('terms') }}">Terms Of Use</a>
   </div>
 </footer>
 

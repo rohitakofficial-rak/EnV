@@ -370,9 +370,9 @@
     <li><a href="/">Home</a></li>
     <li><a href="/#partners">Partners</a></li>
     <li><a href="/#about">About Us</a></li>
-    <li><a href="/#contact">Contact</a></li>
+    <li><a href="/#contact-us">Contact</a></li>
   </ul>
-  <a href="/#contact" class="nav-btn">Enroll Now</a>
+  <a href="/#contact-us" class="nav-btn">Enroll Now</a>
   <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
 
@@ -381,8 +381,8 @@
   <a href="/" class="mobile-link">Home</a>
   <a href="/#partners" class="mobile-link">Partners</a>
   <a href="/#about" class="mobile-link">About Us</a>
-  <a href="/#contact" class="mobile-link">Contact</a>
-  <a href="/#contact" class="nav-btn mobile-link">Enroll Now</a>
+  <a href="/#contact-us" class="mobile-link">Contact</a>
+  <a href="/#contact-us" class="nav-btn mobile-link">Enroll Now</a>
 </div>
 
 <!-- PAGE HERO -->
@@ -414,7 +414,7 @@
       <li><a href="#security">08 — Security</a></li>
       <li><a href="#children">09 — Children's Privacy</a></li>
       <li><a href="#changes">10 — Policy Changes</a></li>
-      <li><a href="#contact">11 — Contact Us</a></li>
+      <li><a href="#contact-section">11 — Contact Us</a></li>
     </ul>
   </aside>
 
@@ -590,7 +590,7 @@
       <p>Your continued use of EngineersVilla after the effective date of any changes constitutes your acceptance of the updated policy. We encourage you to review this page periodically.</p>
     </div>
 
-    <div class="policy-section fade" id="contact">
+    <div class="policy-section fade" id="contact-section">
       <div class="section-num">// 11</div>
       <h2>Contact Us</h2>
       <p>If you have any questions, concerns, or requests related to this Privacy Policy or your personal data, please reach out to us through any of the following channels:</p>
@@ -616,8 +616,8 @@
 <footer>
   <div class="foot-copy">© 2026 EngineersVilla.</div>
   <div class="foot-links">
-    <a href="/privacy-policy">Privacy Policy</a>
-    <a href="/terms-of-use">Terms Of Use</a>
+    <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+    <a href="{{ url_for('terms') }}">Terms Of Use</a>
   </div>
 </footer>
 
