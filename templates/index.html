@@ -522,50 +522,6 @@
     .fade { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
     .fade.vis { opacity: 1; transform: translateY(0); }
 
-    /* ── ECOSYSTEM DROPDOWN ── */
-    .ecosystem-menu { position: relative; }
-    .ecosystem-toggle {
-      background: none; border: none; color: var(--muted);
-      font-family: 'Space Mono', monospace; font-size: .82rem;
-      cursor: pointer; padding: 0; transition: color .2s;
-    }
-    .ecosystem-toggle:hover,
-    .ecosystem-menu.open .ecosystem-toggle { color: var(--cyan); }
-    .ecosystem-menu-list {
-      position: absolute; top: calc(100% + 8px); left: 0;
-      min-width: 240px; background: rgba(2,11,24,.96);
-      border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
-      padding: .6rem 0; display: none; z-index: 210;
-    }
-    .ecosystem-menu.open .ecosystem-menu-list { display: block; }
-    .ecosystem-menu-list li { list-style: none; }
-    .ecosystem-menu-list a {
-      display: block; padding: .75rem 1.1rem;
-      color: var(--muted); text-decoration: none;
-      font-family: 'Space Mono', monospace; font-size: .82rem;
-      transition: background .2s, color .2s;
-    }
-    .ecosystem-menu-list a:hover { background: rgba(0,212,255,.08); color: var(--cyan); }
-    .mobile-ecosystem {
-      width: 100%; display: flex; flex-direction: column; gap: .5rem;
-    }
-    .mobile-ecosystem-toggle {
-      width: 100%; background: none; border: 1px solid rgba(255,255,255,.14);
-      color: var(--white); padding: .9rem 1rem; border-radius: 8px;
-      font-family: 'Space Mono', monospace; font-size: 1rem;
-      text-align: left; cursor: pointer;
-    }
-    .mobile-submenu {
-      display: none; flex-direction: column; gap: .4rem; padding-left: .5rem;
-    }
-    .mobile-submenu.open { display: flex; }
-    .mobile-submenu .mobile-link {
-      padding-left: .75rem; font-size: .95rem; color: var(--muted);
-    }
-    .mobile-link:hover { color: var(--cyan); }
-    .mobile-nav { max-height: 100vh; overflow-y: auto; }
-
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .nav-links { display: none; }
@@ -621,14 +577,7 @@
   </a>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
-    <li class="ecosystem-menu">
-      <button class="ecosystem-toggle" type="button" aria-expanded="false" aria-controls="ecosystem-menu-list">Ecosystem ▾</button>
-      <ul class="ecosystem-menu-list" id="ecosystem-menu-list">
-        <li><a href="#ecosystem-platform">Practical Skill Platform</a></li>
-        <li><a href="#ecosystem-who">Who It's For</a></li>
-        <li><a href="#ecosystem-how">How It Works</a></li>
-      </ul>
-    </li>
+    <li><a href="#ecosystem">About Us</a></li>
     <li><a href="#contact-us">Contact Us</a></li>
     <li><a href="/partners">Our Partners</a></li>
   </ul>
@@ -641,14 +590,7 @@
 <!-- Mobile Nav -->
 <div class="mobile-nav" id="mobile-nav">
   <a href="#home" class="mobile-link">Home</a>
-  <div class="mobile-ecosystem">
-    <button class="mobile-ecosystem-toggle" type="button" aria-expanded="false">Ecosystem ▾</button>
-    <div class="mobile-submenu">
-      <a href="#ecosystem-platform" class="mobile-link">Practical Skill Platform</a>
-      <a href="#ecosystem-who" class="mobile-link">Who It's For</a>
-      <a href="#ecosystem-how" class="mobile-link">How It Works</a>
-    </div>
-  </div>
+  <a href="#ecosystem" class="mobile-link">About Us</a>
   <a href="#contact-us" class="mobile-link">Contact Us</a>
   <a href="/partners" class="mobile-link">Our Partners</a>
   <a href="#contact-us" class="nav-btn mobile-link">Get Started</a>
@@ -1010,42 +952,22 @@
     document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
   });
 
-  const ecoToggle = document.querySelector('.ecosystem-toggle');
-  const ecoMenu = document.querySelector('.ecosystem-menu');
-  if (ecoToggle && ecoMenu) {
-    ecoToggle.addEventListener('click', () => {
-      const expanded = ecoToggle.getAttribute('aria-expanded') === 'true';
-      ecoToggle.setAttribute('aria-expanded', String(!expanded));
-      ecoMenu.classList.toggle('open');
-    });
-  }
-
-  const mobileEcoToggle = document.querySelector('.mobile-ecosystem-toggle');
-  const mobileSubmenu = document.querySelector('.mobile-submenu');
-  if (mobileEcoToggle && mobileSubmenu) {
-    mobileEcoToggle.addEventListener('click', () => {
-      const expanded = mobileEcoToggle.getAttribute('aria-expanded') === 'true';
-      mobileEcoToggle.setAttribute('aria-expanded', String(!expanded));
-      mobileSubmenu.classList.toggle('open');
-    });
-  }
-
-  document.addEventListener('click', e => {
-    if (ecoMenu && !ecoMenu.contains(e.target)) {
-      ecoMenu.classList.remove('open');
-      ecoToggle?.setAttribute('aria-expanded', 'false');
-    }
-    if (mobileSubmenu && !mobileSubmenu.contains(e.target) && !mobileEcoToggle?.contains(e.target)) {
-      mobileSubmenu.classList.remove('open');
-      mobileEcoToggle?.setAttribute('aria-expanded', 'false');
-    }
-  });
-
   document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileNav.classList.remove('open');
-      document.body.style.overflow = '';
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        // For anchor links, close menu after smooth scroll completes
+        setTimeout(() => {
+          hamburger.classList.remove('open');
+          mobileNav.classList.remove('open');
+          document.body.style.overflow = '';
+        }, 800); // Wait for smooth scroll to complete
+      } else {
+        // For non-anchor links, close menu immediately
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+      }
     });
   });
 
@@ -1100,7 +1022,9 @@
       const target = document.querySelector(targetId);
 
       if (target) {
-        const navHeight = document.querySelector('nav').offsetHeight;
+        // Use different nav height for mobile vs desktop
+        const isMobile = window.innerWidth <= 900;
+        const navHeight = isMobile ? 0 : document.querySelector('nav').offsetHeight;
 
         const targetPosition =
           target.getBoundingClientRect().top +
