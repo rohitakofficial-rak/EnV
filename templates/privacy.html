@@ -612,8 +612,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-logo">Engineers<span>Villa</span></div>
-  <div class="foot-copy">© 2026 EngineersVilla. Built for students, by engineers.</div>
+  <div class="foot-copy">© 2026 EngineersVilla.</div>
   <div class="foot-links">
     <a href="/privacy-policy">Privacy Policy</a>
     <a href="/terms-of-use">Terms Of Use</a>
@@ -642,7 +641,9 @@
   // Custom cursor
   const cur = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
+  let cursorActive = false;
   document.addEventListener('mousemove', e => {
+    if (!cursorActive) { cursorActive = true; cur.style.opacity = '1'; ring.style.opacity = '1'; }
     cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
     setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
   });
