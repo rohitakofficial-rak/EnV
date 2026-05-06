@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EngineersVilla — Build Real. Be Future-Ready.</title>
   <link rel="icon" href="{{ url_for('static', filename='5.png') }}" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Clash+Display:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,6 +23,8 @@
       --muted:    #6a96c2;
       --faint:    rgba(43, 127, 255, 0.12);
       --border:   rgba(43, 127, 255, 0.18);
+      --gold:     #f5c842;
+      --gold-d:   #c49a10;
     }
 
     html { scroll-behavior: smooth; }
@@ -42,19 +44,16 @@
       pointer-events: none; z-index: 9999;
       transform: translate(-50%,-50%);
       transition: transform .1s, width .2s, height .2s, opacity .2s;
-      mix-blend-mode: screen;
-      opacity: 0; /* hidden until first mousemove */
+      mix-blend-mode: screen; opacity: 0;
     }
     #cursor-ring {
       position: fixed; width: 36px; height: 36px;
       border: 1.5px solid rgba(0,212,255,.5); border-radius: 50%;
       pointer-events: none; z-index: 9998;
       transform: translate(-50%,-50%);
-      transition: transform .18s ease, width .25s, height .25s;
-      opacity: 0; /* hidden until first mousemove */
+      transition: transform .18s ease, width .25s, height .25s; opacity: 0;
     }
     @media (hover: none) and (pointer: coarse) {
-      /* Touch devices — hide custom cursor, restore default */
       #cursor, #cursor-ring { display: none !important; }
       body { cursor: auto; }
     }
@@ -75,124 +74,84 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.25rem 6%;
-      background: rgba(2, 11, 24, 0.88);
-      backdrop-filter: blur(20px);
+      background: rgba(2, 11, 24, 0.92);
+      backdrop-filter: blur(24px);
       border-bottom: 1px solid var(--border);
     }
-
-    .logo {
-      display: flex; align-items: center; gap: .75rem;
-      text-decoration: none;
-      color: inherit;
-    }
-    .logo-img {
-      width: 46px; height: 46px; object-fit: contain;
-    }
-    .logo-copy {
-      display: flex; flex-direction: column; gap: .3rem;
-    }
+    .logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: inherit; }
+    .logo-img { width: 46px; height: 46px; object-fit: contain; }
+    .logo-copy { display: flex; flex-direction: column; gap: .3rem; }
     .logo-text {
       display: flex; align-items: center; gap: .15rem;
-      font-family: 'Orbitron', 'Outfit', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Orbitron', sans-serif;
       font-size: 1.2rem; font-weight: 700;
       letter-spacing: .1em; color: var(--white);
-      text-transform: uppercase;
-      font-style: italic;
-      white-space: nowrap;
+      text-transform: uppercase; font-style: italic; white-space: nowrap;
     }
     .logo-text .brand-cyan { color: var(--cyan); }
-    .logo-text .brand-white { color: var(--white); }
     .logo-subtext {
       font-family: 'Space Mono', monospace;
       font-size: .68rem; font-weight: 600;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: rgba(238,246,255,0.85);
-      white-space: nowrap;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(238,246,255,0.85); white-space: nowrap;
     }
     .logo-subtext .dot { color: var(--cyan); }
 
-    .nav-links {
-      display: flex; gap: 2rem; list-style: none;
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       color: var(--muted); text-decoration: none;
-      font-size: .875rem; font-weight: 500;
+      font-family: 'Space Mono', monospace; font-size: .82rem;
       transition: color .2s;
-      font-family: 'Space Mono', monospace;
-      font-size: .82rem;
     }
     .nav-links a:hover { color: var(--cyan); }
 
     .nav-btn {
       padding: .7rem 1.5rem;
-      background: transparent;
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      border-radius: 4px;
+      background: transparent; border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 4px;
       font-family: 'Space Mono', monospace; font-size: .82rem;
       cursor: pointer; text-decoration: none;
-      transition: background .2s, box-shadow .2s;
-      letter-spacing: .06em;
+      transition: background .2s, box-shadow .2s; letter-spacing: .06em;
     }
-    .nav-btn:hover {
-      background: rgba(0,212,255,.1);
-      box-shadow: 0 0 18px rgba(0,212,255,.25);
-    }
+    .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
 
-    /* ── Hamburger ── */
     .hamburger {
-      display: none;
-      flex-direction: column; justify-content: center; gap: 5px;
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
       width: 36px; height: 36px; cursor: pointer;
-      background: none; border: none; padding: 4px;
-      z-index: 201;
+      background: none; border: none; padding: 4px; z-index: 201;
     }
     .hamburger span {
       display: block; width: 22px; height: 2px;
       background: var(--white); border-radius: 2px;
-      transition: transform .3s, opacity .3s, width .3s;
-      transform-origin: center;
+      transition: transform .3s, opacity .3s, width .3s; transform-origin: center;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* Mobile nav drawer */
     .mobile-nav {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(2, 11, 24, 0.97);
-      backdrop-filter: blur(20px);
-      z-index: 199;
-      flex-direction: column; align-items: center; justify-content: center;
-      gap: 2.5rem;
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 11, 24, 0.97); backdrop-filter: blur(20px);
+      z-index: 199; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
     }
     .mobile-nav.open { display: flex; }
     .mobile-nav a {
-      font-family: 'Space Mono', monospace;
-      font-size: 1.2rem; color: var(--white);
-      text-decoration: none; letter-spacing: .08em;
-      transition: color .2s;
+      font-family: 'Space Mono', monospace; font-size: 1.2rem;
+      color: var(--white); text-decoration: none; letter-spacing: .08em; transition: color .2s;
     }
     .mobile-nav a:hover, .mobile-nav a.nav-btn { color: var(--cyan); }
-    .mobile-nav .nav-btn {
-      padding: .85rem 2.5rem;
-      border: 1px solid var(--cyan);
-      border-radius: 4px; color: var(--cyan);
-      font-size: 1rem; margin-top: 1rem;
-    }
+    .mobile-nav .nav-btn { padding: .85rem 2.5rem; border: 1px solid var(--cyan); border-radius: 4px; color: var(--cyan); font-size: 1rem; margin-top: 1rem; }
+
+    /* ── HERO ── */
     #home {
       min-height: 100vh;
       display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
       padding: 10rem 6% 5rem;
-      position: relative; z-index: 1;
-      overflow: hidden;
+      position: relative; z-index: 1; overflow: hidden;
     }
 
     .hero-scan {
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, transparent, var(--cyan), transparent);
       animation: scan 4s ease-in-out infinite;
     }
@@ -202,51 +161,50 @@
       100% { top: 100%; opacity: 0; }
     }
 
-    /* Circuit lines */
     .circuit {
       position: absolute; right: 0; top: 0; bottom: 0;
-      width: 55%; pointer-events: none; z-index: 0;
-      opacity: .18;
+      width: 55%; pointer-events: none; z-index: 0; opacity: .15;
+    }
+
+    /* Animated orb background */
+    .hero-orb {
+      position: absolute; right: 10%; top: 20%;
+      width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(21,87,212,.25) 0%, rgba(0,212,255,.08) 50%, transparent 70%);
+      filter: blur(40px);
+      animation: orbPulse 6s ease-in-out infinite;
+      pointer-events: none; z-index: 0;
+    }
+    @keyframes orbPulse {
+      0%,100% { transform: scale(1); opacity: .6; }
+      50% { transform: scale(1.15); opacity: 1; }
     }
 
     .hero-tag {
       display: inline-flex; align-items: center; gap: .5rem;
       font-family: 'Space Mono', monospace; font-size: .7rem;
       color: var(--cyan); letter-spacing: .1em; text-transform: uppercase;
-      padding: .35rem .9rem;
-      border: 1px solid rgba(0,212,255,.3);
-      border-radius: 2px;
-      margin-bottom: 2rem;
-      background: rgba(0,212,255,.06);
+      padding: .35rem .9rem; border: 1px solid rgba(0,212,255,.3);
+      border-radius: 2px; margin-bottom: 2rem; background: rgba(0,212,255,.06);
     }
     .hero-tag::before { content: '//'; opacity: .5; }
 
     h1 {
       font-family: 'Outfit', sans-serif;
       font-size: clamp(2.8rem, 6.5vw, 5.5rem);
-      font-weight: 700; line-height: 1.05;
-      letter-spacing: -.03em;
-      max-width: 700px;
-      position: relative; z-index: 1;
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -.03em; max-width: 700px; position: relative; z-index: 1;
     }
     h1 em {
-      font-style: normal;
-      color: var(--cyan);
+      font-style: normal; color: var(--cyan);
       text-shadow: 0 0 40px rgba(0,212,255,.45);
     }
 
-    .hero-code {
-      font-family: 'Space Mono', monospace;
-      font-size: .85rem; color: var(--muted);
-      margin-top: 2rem; line-height: 1.9;
-      border-left: 2px solid var(--blue-m);
-      padding-left: 1.2rem;
-      max-width: 500px;
+    .hero-desc {
+      margin-top: 1.8rem; max-width: 520px;
+      color: var(--muted); font-size: 1.05rem; font-weight: 400; line-height: 1.8;
+      position: relative; z-index: 1;
     }
-    .hero-code .kw { color: var(--blue-m); }
-    .hero-code .str { color: var(--cyan); }
-    .hero-code .fn { color: #e8c97b; }
-    .hero-code .cm { color: rgba(106,150,194,.5); }
 
     .hero-actions {
       margin-top: 2.8rem; display: flex; gap: 1rem; flex-wrap: wrap;
@@ -254,41 +212,35 @@
     }
 
     .btn-primary {
-      padding: .85rem 2rem;
+      padding: .9rem 2.2rem;
       background: linear-gradient(135deg, var(--blue), var(--blue-m));
       color: #fff; border: none; border-radius: 4px;
       font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 600;
       cursor: pointer; text-decoration: none;
       box-shadow: 0 4px 24px rgba(21,87,212,.5);
-      transition: transform .2s, box-shadow .2s;
-      letter-spacing: .02em;
+      transition: transform .2s, box-shadow .2s; letter-spacing: .02em;
     }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(43,127,255,.55); }
 
     .btn-outline {
-      padding: .85rem 2rem;
+      padding: .9rem 2.2rem;
       background: transparent; color: var(--white);
-      border: 1px solid rgba(255,255,255,.2);
-      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,.2); border-radius: 4px;
       font-family: 'Outfit', sans-serif; font-size: .95rem; font-weight: 500;
       cursor: pointer; text-decoration: none;
       transition: border-color .2s, background .2s;
     }
     .btn-outline:hover { border-color: var(--cyan); background: rgba(0,212,255,.05); }
 
-    /* Floating stats */
+    /* Hero float cards */
     .hero-float {
       position: absolute; right: 6%; top: 50%; transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 1.2rem;
-      z-index: 1;
+      display: flex; flex-direction: column; gap: 1.2rem; z-index: 1;
     }
     .float-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.1rem 1.5rem;
-      backdrop-filter: blur(12px);
-      min-width: 170px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.1rem 1.5rem;
+      backdrop-filter: blur(12px); min-width: 170px;
       animation: float 4s ease-in-out infinite;
     }
     .float-card:nth-child(2) { animation-delay: 1.3s; }
@@ -297,10 +249,7 @@
       0%,100% { transform: translateY(0); }
       50%      { transform: translateY(-8px); }
     }
-    .float-num {
-      font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700;
-      color: var(--cyan);
-    }
+    .float-num { font-size: 1.8rem; }
     .float-lbl { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
 
     /* ── DIVIDER ── */
@@ -311,12 +260,18 @@
     }
 
     /* ── SECTIONS COMMON ── */
-    section { position: relative; z-index: 1; }
-    .wrap { max-width: 1120px; margin: 0 auto; padding: 6rem 6%; }
+    section { 
+  position: relative; 
+  z-index: 1;
+   } .wrap { 
+    max-width: 1120px; 
+    margin: 0 auto; 
+    padding: 6rem 6%; 
+  }
 
     .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      font-family: 'Space Mono', monospace; font-size: .68rem;
+      letter-spacing: .12em; text-transform: uppercase;
       color: var(--cyan); margin-bottom: 1rem;
       display: flex; align-items: center; gap: .5rem;
     }
@@ -326,94 +281,134 @@
       font-family: 'Outfit', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
       font-weight: 700; line-height: 1.15;
-      letter-spacing: -.025em;
-      margin-bottom: 1rem;
+      letter-spacing: -.025em; margin-bottom: 1rem;
     }
-    .sub { color: var(--muted); font-size: 1rem; font-weight: 300; line-height: 1.8; max-width: 500px; }
+    .sub { color: var(--muted); font-size: 1rem; font-weight: 300; line-height: 1.8; max-width: 520px; }
 
-    /* ── PARTNERS ── */
-    #partners { background: var(--bg2); }
+    /* ── ECOSYSTEM SECTION ── */
+    #ecosystem { background: var(--surface); }
 
-    .partners-top {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap;
+    .eco-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 3.5rem;
     }
-
-    .partners-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.2rem;
-    }
-
-    .p-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.8rem 1.5rem;
-      display: flex; flex-direction: column; gap: .9rem;
-      transition: border-color .3s, transform .3s, box-shadow .3s;
-      backdrop-filter: blur(8px);
+    .eco-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+      transition: border-color .25s, transform .25s;
       position: relative; overflow: hidden;
     }
-    .p-card::before {
+    .eco-card::before {
       content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
       background: linear-gradient(90deg, transparent, var(--blue-m), transparent);
-      transform: scaleX(0); transition: transform .35s;
+      transform: scaleX(0); transition: transform .3s; transform-origin: center;
     }
-    .p-card:hover { border-color: rgba(43,127,255,.5); transform: translateY(-4px); box-shadow: 0 10px 36px rgba(21,87,212,.22); }
-    .p-card:hover::before { transform: scaleX(1); }
+    .eco-card:hover::before { transform: scaleX(1); }
+    .eco-card:hover { border-color: var(--blue-m); transform: translateY(-4px); }
 
-    .p-icon {
-      width: 44px; height: 44px; border-radius: 10px;
+    .eco-icon {
+      width: 52px; height: 52px; border-radius: 12px;
       background: var(--faint); border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.4rem; margin-bottom: 1.2rem;
     }
-    .p-name { font-weight: 600; font-size: .95rem; }
-    .p-role { font-size: .78rem; color: var(--muted); }
-    .p-badge {
-      display: inline-block; font-size: .65rem;
-      padding: .2rem .6rem; border-radius: 20px;
-      background: rgba(0,212,255,.08); color: var(--cyan);
-      border: 1px solid rgba(0,212,255,.2);
-      font-family: 'Space Mono', monospace; letter-spacing: .05em;
-      width: fit-content;
+    .eco-title { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .eco-desc { font-size: .83rem; color: var(--muted); line-height: 1.65; }
+
+    /* Key card — gold variant spanning full width */
+    .eco-card.key-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(20,14,4,.9) 0%, rgba(8,25,50,.85) 100%);
+      border-color: rgba(245,200,66,.35);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+      padding: 2.8rem;
+    }
+    .eco-card.key-card::before {
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .eco-card.key-card:hover { border-color: rgba(245,200,66,.6); box-shadow: 0 0 60px rgba(245,200,66,.08); transform: none; }
+    .key-card-left { display: flex; flex-direction: column; gap: 1rem; }
+    .key-card-badge {
+      font-family: 'Space Mono', monospace; font-size: .65rem;
+      color: var(--gold); letter-spacing: .14em; text-transform: uppercase;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .key-card-badge::before { content: ''; width: 16px; height: 1px; background: var(--gold); }
+    .key-card-title {
+      font-family: 'Outfit', sans-serif; font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 800; line-height: 1.1; letter-spacing: -.02em;
+      color: var(--gold); text-shadow: 0 0 40px rgba(245,200,66,.3);
+    }
+    .key-card-desc { font-size: .9rem; color: var(--muted); line-height: 1.75; }
+    .key-card-right { display: flex; flex-direction: column; gap: .9rem; }
+    .key-bullet {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: 1rem 1.2rem; border-radius: 10px;
+      background: rgba(245,200,66,.05); border: 1px solid rgba(245,200,66,.15);
+      transition: border-color .25s, background .25s;
+    }
+    .key-bullet:hover { border-color: rgba(245,200,66,.35); background: rgba(245,200,66,.08); }
+    .key-bullet-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: .1rem; }
+    .key-bullet-text { font-size: .83rem; color: var(--muted); line-height: 1.55; }
+    .key-bullet-text strong { color: var(--white); font-weight: 600; display: block; margin-bottom: .2rem; }
+
+    @media (max-width: 760px) {
+      .eco-card.key-card { grid-template-columns: 1fr; gap: 1.8rem; padding: 1.8rem; }
     }
 
-    /* ── ABOUT US ── */
-    #about-us { background: var(--bg); }
+    /* ── PROGRAMS SECTION ── */
+    #programs { background: var(--bg); }
 
-    .about-layout {
-      display: grid; grid-template-columns: 1.1fr 1fr;
-      gap: 5rem; align-items: center;
+    .programs-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem; margin-top: 3rem;
     }
-
-    .skills-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-      margin-top: 2.5rem;
-    }
-    .skill-tile {
+    .program-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.3rem;
-      transition: border-color .25s, transform .25s;
+      border-radius: 12px; padding: 1.5rem; text-align: left;
+      transition: transform .2s, border-color .2s;
+      position: relative; overflow: hidden;
     }
-    .skill-tile:hover { border-color: var(--blue-m); transform: translateY(-3px); }
-    .skill-tile .s-icon { font-size: 1.4rem; margin-bottom: .6rem; }
-    .skill-tile .s-title { font-size: .88rem; font-weight: 600; margin-bottom: .3rem; }
-    .skill-tile .s-desc { font-size: .77rem; color: var(--muted); line-height: 1.6; }
+    .program-card:hover { transform: translateY(-4px); border-color: var(--blue-m); }
+    .p-icon-wrap {
+      font-size: 1.8rem; margin-bottom: .9rem;
+      display: flex; align-items: center;
+    }
+    .p-title { font-size: .9rem; font-weight: 700; margin-bottom: .4rem; }
+    .p-desc { font-size: .78rem; color: var(--muted); line-height: 1.55; }
 
-    /* Terminal card */
+    /* ── WHO IS THIS FOR ── */
+    #who { background: var(--surface); }
+
+    .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .who-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem; text-align: center;
+      transition: transform .25s, border-color .25s;
+    }
+    .who-card:hover { transform: translateY(-5px); border-color: var(--blue-m); }
+    .who-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--faint); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 1.2rem;
+    }
+    .who-title { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .who-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── TERMINAL + PROGRESS ── */
+    #what-we-do { background: var(--bg); }
+
+    .terminal-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
     .terminal {
-      background: #020d1a;
-      border: 1px solid rgba(43,127,255,.3);
-      border-radius: 12px;
-      overflow: hidden;
+      background: #020d1a; border: 1px solid rgba(43,127,255,.3);
+      border-radius: 12px; overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 40px rgba(21,87,212,.15);
     }
     .term-bar {
-      background: #041020;
-      padding: .7rem 1rem;
+      background: #041020; padding: .7rem 1rem;
       display: flex; align-items: center; gap: .5rem;
       border-bottom: 1px solid rgba(43,127,255,.15);
     }
@@ -435,16 +430,11 @@
     }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Progress bars */
     .prog-wrap { margin-top: 1.5rem; display: flex; flex-direction: column; gap: .9rem; }
-    .prog-item {}
     .prog-header { display: flex; justify-content: space-between; margin-bottom: .35rem; font-size: .78rem; }
     .prog-label { color: var(--muted); }
     .prog-val { color: var(--cyan); font-family: 'Space Mono', monospace; font-size: .72rem; }
-    .prog-track {
-      height: 4px; background: rgba(43,127,255,.12);
-      border-radius: 2px; overflow: hidden;
-    }
+    .prog-track { height: 4px; background: rgba(43,127,255,.12); border-radius: 2px; overflow: hidden; }
     .prog-fill {
       height: 100%; border-radius: 2px;
       background: linear-gradient(90deg, var(--blue), var(--cyan));
@@ -454,27 +444,35 @@
     }
     .prog-fill.animate { transform: scaleX(1); }
 
-    /* ── CONTACT US ── */
+    /* Terminal right panel */
+    .terminal-details { display: flex; flex-direction: column; gap: 1.5rem; }
+    .detail-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem; background: var(--card);
+      border: 1px solid var(--border); border-radius: 10px;
+      transition: border-color .25s;
+    }
+    .detail-item:hover { border-color: var(--blue-m); }
+    .detail-num {
+      font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700;
+      color: var(--cyan); line-height: 1; flex-shrink: 0; width: 3rem;
+    }
+    .detail-title { font-size: .92rem; font-weight: 600; margin-bottom: .3rem; }
+    .detail-desc { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── CONTACT ── */
     #contact-us { background: var(--bg2); }
 
-    .contact-layout {
-      display: grid; grid-template-columns: 1fr 1.15fr;
-      gap: 5rem; align-items: start;
-    }
-
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 5rem; align-items: start; }
     .c-info { display: flex; flex-direction: column; gap: 1.8rem; margin-top: 2rem; }
     .c-item { display: flex; gap: 1rem; align-items: flex-start; }
     .c-icon {
-      width: 42px; height: 42px; flex-shrink: 0;
-      border-radius: 8px;
+      width: 42px; height: 42px; flex-shrink: 0; border-radius: 8px;
       background: var(--faint); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
     }
     .c-lbl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .3rem; font-family: 'Space Mono', monospace; }
     .c-val { font-size: .9rem; font-weight: 500; }
-
-    /* Socials */
     .socials { display: flex; gap: .8rem; margin-top: 1rem; }
     .soc-btn {
       width: 38px; height: 38px; border-radius: 8px;
@@ -485,19 +483,15 @@
     }
     .soc-btn:hover { border-color: var(--cyan); background: rgba(0,212,255,.1); transform: translateY(-2px); }
 
-    /* Form */
     .c-form {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 2.5rem;
-      backdrop-filter: blur(10px);
+      border-radius: 12px; padding: 2.5rem; backdrop-filter: blur(10px);
     }
     .c-form h3 {
       font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700;
-      margin-bottom: 1.8rem;
-      display: flex; align-items: center; gap: .6rem;
+      margin-bottom: 1.8rem; display: flex; align-items: center; gap: .6rem;
     }
     .c-form h3::before { content: ''; width: 3px; height: 1.2rem; background: var(--cyan); border-radius: 2px; }
-
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .field { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
     .field label { font-size: .72rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
@@ -505,52 +499,20 @@
       background: rgba(4,16,32,.8); border: 1px solid rgba(43,127,255,.22);
       border-radius: 6px; padding: .7rem 1rem;
       color: var(--white); font-family: 'Outfit', sans-serif; font-size: .9rem;
-      outline: none; transition: border-color .2s, box-shadow .2s;
-      appearance: none;
+      outline: none; transition: border-color .2s, box-shadow .2s; appearance: none;
     }
     .field input:focus, .field textarea:focus, .field select:focus {
-      border-color: var(--blue-m);
-      box-shadow: 0 0 0 3px rgba(43,127,255,.12);
+      border-color: var(--blue-m); box-shadow: 0 0 0 3px rgba(43,127,255,.12);
     }
     .field textarea { resize: vertical; min-height: 100px; }
 
-    /* ── PROGRAMS STRIP ── */
-    .programs-strip {
-      padding: 4rem 6%; background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .strip-label {
-      font-family: 'Space Mono', monospace; font-size: .68rem;
-      color: var(--muted); text-align: center; letter-spacing: .1em;
-      text-transform: uppercase; margin-bottom: 2rem;
-    }
-    .strip-items {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
-    }
-    .strip-item {
-      display: flex; align-items: center; gap: .6rem;
-      padding: .6rem 1.3rem;
-      background: var(--faint); border: 1px solid var(--border);
-      border-radius: 30px; font-size: .82rem; font-weight: 500;
-      transition: border-color .2s, background .2s;
-    }
-    .strip-item:hover { border-color: var(--blue-m); background: rgba(43,127,255,.12); }
-
     /* ── FOOTER ── */
     footer {
-      background: var(--bg);
-      border-top: 1px solid var(--border);
+      background: var(--bg); border-top: 1px solid var(--border);
       padding: 2rem 6%;
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-      position: relative; z-index: 1;
+      flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1;
     }
-    .foot-logo {
-      display: flex; align-items: center; gap: .5rem;
-      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
-    }
-    .foot-logo span { color: var(--cyan); }
     .foot-copy { font-size: .78rem; color: var(--muted); }
     .foot-links { display: flex; gap: 1.5rem; }
     .foot-links a { color: var(--muted); text-decoration: none; font-size: .78rem; transition: color .2s; }
@@ -560,14 +522,60 @@
     .fade { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
     .fade.vis { opacity: 1; transform: translateY(0); }
 
+    /* ── ECOSYSTEM DROPDOWN ── */
+    .ecosystem-menu { position: relative; }
+    .ecosystem-toggle {
+      background: none; border: none; color: var(--muted);
+      font-family: 'Space Mono', monospace; font-size: .82rem;
+      cursor: pointer; padding: 0; transition: color .2s;
+    }
+    .ecosystem-toggle:hover,
+    .ecosystem-menu.open .ecosystem-toggle { color: var(--cyan); }
+    .ecosystem-menu-list {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      min-width: 240px; background: rgba(2,11,24,.96);
+      border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      padding: .6rem 0; display: none; z-index: 210;
+    }
+    .ecosystem-menu.open .ecosystem-menu-list { display: block; }
+    .ecosystem-menu-list li { list-style: none; }
+    .ecosystem-menu-list a {
+      display: block; padding: .75rem 1.1rem;
+      color: var(--muted); text-decoration: none;
+      font-family: 'Space Mono', monospace; font-size: .82rem;
+      transition: background .2s, color .2s;
+    }
+    .ecosystem-menu-list a:hover { background: rgba(0,212,255,.08); color: var(--cyan); }
+    .mobile-ecosystem {
+      width: 100%; display: flex; flex-direction: column; gap: .5rem;
+    }
+    .mobile-ecosystem-toggle {
+      width: 100%; background: none; border: 1px solid rgba(255,255,255,.14);
+      color: var(--white); padding: .9rem 1rem; border-radius: 8px;
+      font-family: 'Space Mono', monospace; font-size: 1rem;
+      text-align: left; cursor: pointer;
+    }
+    .mobile-submenu {
+      display: none; flex-direction: column; gap: .4rem; padding-left: .5rem;
+    }
+    .mobile-submenu.open { display: flex; }
+    .mobile-submenu .mobile-link {
+      padding-left: .75rem; font-size: .95rem; color: var(--muted);
+    }
+    .mobile-link:hover { color: var(--cyan); }
+    .mobile-nav { max-height: 100vh; overflow-y: auto; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .nav-links { display: none; }
-      .nav-btn { display: none; } /* hide desktop enroll button */
+      .nav-btn { display: none; }
       .hamburger { display: flex; }
       .hero-float { display: none; }
-      .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .eco-grid { grid-template-columns: 1fr 1fr; }
+      .who-grid { grid-template-columns: 1fr 1fr; }
+      .terminal-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
       .row2 { grid-template-columns: 1fr; }
       nav { padding: 1rem 5%; }
       .logo-text { font-size: 1rem; }
@@ -577,20 +585,21 @@
       h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
       .wrap { padding: 3.5rem 5%; }
       #home { padding: 8rem 5% 4rem; }
-      .hero-code { font-size: .75rem; max-width: 100%; }
       .hero-actions { flex-direction: column; width: 100%; }
       .btn-primary, .btn-outline { width: 100%; text-align: center; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .partners-top { flex-direction: column; align-items: flex-start; }
-      .partners-top .btn-outline { width: 100%; text-align: center; }
-      .partners-grid { grid-template-columns: 1fr; }
+      .eco-grid { grid-template-columns: 1fr; }
+      .who-grid { grid-template-columns: 1fr; }
+      .programs-grid { grid-template-columns: 1fr 1fr; }
       .c-form { padding: 1.5rem; }
-      .programs-strip { padding: 3rem 5%; }
-      .strip-items { gap: .7rem; }
-      .strip-item { font-size: .75rem; padding: .5rem 1rem; }
       footer { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
       .foot-links { justify-content: center; }
       .logo-subtext { font-size: .58rem; }
+      .key-ring { width: 200px; height: 200px; }
+      .key-ring-inner { width: 150px; height: 150px; }
+      .key-emoji { font-size: 3.5rem; }
+    }
+    @media (max-width: 400px) {
+      .programs-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -605,37 +614,51 @@
     <img src="{{ url_for('static', filename='5.png') }}" alt="EngineersVilla Logo" class="logo-img">
     <div class="logo-copy">
       <div class="logo-text">
-        <span class="brand-cyan">Engineers</span><span class="brand-white">Villa</span>
+        <span class="brand-cyan">Engineers</span><span style="color:var(--white)">Villa</span>
       </div>
       <div class="logo-subtext">BUILD <span class="dot">.</span> INNOVATE <span class="dot">.</span> INSPIRE</div>
     </div>
   </a>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
-    <li><a href="#partners">Partners</a></li>
-    <li><a href="#about-us">About Us</a></li>
+    <li class="ecosystem-menu">
+      <button class="ecosystem-toggle" type="button" aria-expanded="false" aria-controls="ecosystem-menu-list">Ecosystem ▾</button>
+      <ul class="ecosystem-menu-list" id="ecosystem-menu-list">
+        <li><a href="#ecosystem-platform">Practical Skill Platform</a></li>
+        <li><a href="#ecosystem-who">Who It's For</a></li>
+        <li><a href="#ecosystem-how">How It Works</a></li>
+      </ul>
+    </li>
     <li><a href="#contact-us">Contact Us</a></li>
+    <li><a href="/partners">Our Partners</a></li>
   </ul>
-  <a href="#drop-message" class="nav-btn">Enroll Now</a>
+  <a href="#contact-us" class="nav-btn">Get Started</a>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Mobile Nav Drawer -->
+<!-- Mobile Nav -->
 <div class="mobile-nav" id="mobile-nav">
   <a href="#home" class="mobile-link">Home</a>
-  <a href="#partners" class="mobile-link">Partners</a>
-  <a href="#about-us" class="mobile-link">About Us</a>
+  <div class="mobile-ecosystem">
+    <button class="mobile-ecosystem-toggle" type="button" aria-expanded="false">Ecosystem ▾</button>
+    <div class="mobile-submenu">
+      <a href="#ecosystem-platform" class="mobile-link">Practical Skill Platform</a>
+      <a href="#ecosystem-who" class="mobile-link">Who It's For</a>
+      <a href="#ecosystem-how" class="mobile-link">How It Works</a>
+    </div>
+  </div>
   <a href="#contact-us" class="mobile-link">Contact Us</a>
-  <a href="#drop-message" class="nav-btn mobile-link">Enroll Now</a>
+  <a href="/partners" class="mobile-link">Our Partners</a>
+  <a href="#contact-us" class="nav-btn mobile-link">Get Started</a>
 </div>
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section id="home">
   <div class="hero-scan"></div>
+  <div class="hero-orb"></div>
 
-  <!-- Circuit SVG -->
   <svg class="circuit" viewBox="0 0 600 800" fill="none" xmlns="http://www.w3.org/2000/svg">
     <line x1="100" y1="0" x2="100" y2="800" stroke="#2b7fff" stroke-width="1"/>
     <line x1="250" y1="0" x2="250" y2="800" stroke="#2b7fff" stroke-width="1"/>
@@ -643,218 +666,228 @@
     <line x1="0" y1="150" x2="600" y2="150" stroke="#2b7fff" stroke-width="1"/>
     <line x1="0" y1="350" x2="600" y2="350" stroke="#2b7fff" stroke-width="1"/>
     <line x1="0" y1="550" x2="600" y2="550" stroke="#2b7fff" stroke-width="1"/>
-    <circle cx="100" cy="150" r="5" fill="#00d4ff" opacity=".8"/>
-    <circle cx="250" cy="350" r="5" fill="#00d4ff" opacity=".8"/>
-    <circle cx="400" cy="150" r="5" fill="#00d4ff" opacity=".8"/>
-    <circle cx="100" cy="550" r="5" fill="#00d4ff" opacity=".8"/>
-    <circle cx="400" cy="550" r="5" fill="#2b7fff" opacity=".6"/>
+    <circle cx="100" cy="150" r="5" fill="#00d4ff" opacity=".8"><animate attributeName="opacity" values=".8;.2;.8" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="250" cy="350" r="5" fill="#00d4ff" opacity=".8"><animate attributeName="opacity" values=".2;.8;.2" dur="2.5s" repeatCount="indefinite"/></circle>
+    <circle cx="400" cy="150" r="5" fill="#00d4ff" opacity=".8"><animate attributeName="opacity" values=".8;.3;.8" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="100" cy="550" r="5" fill="#00d4ff" opacity=".8"><animate attributeName="opacity" values=".4;.9;.4" dur="3.5s" repeatCount="indefinite"/></circle>
+    <circle cx="400" cy="550" r="5" fill="#2b7fff" opacity=".6"><animate attributeName="opacity" values=".6;.1;.6" dur="2.8s" repeatCount="indefinite"/></circle>
     <circle cx="250" cy="150" r="3" fill="#2b7fff" opacity=".5"/>
     <rect x="85" y="135" width="30" height="30" rx="4" stroke="#2b7fff" stroke-width="1" fill="none"/>
     <rect x="235" y="335" width="30" height="30" rx="4" stroke="#00d4ff" stroke-width="1" fill="none"/>
     <rect x="385" y="135" width="30" height="30" rx="4" stroke="#2b7fff" stroke-width="1" fill="none"/>
+    <path d="M100 150 L250 150" stroke="#00d4ff" stroke-width="1" stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/></path>
+    <path d="M250 350 L400 350" stroke="#2b7fff" stroke-width="1" stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" values="0;-16" dur="1.2s" repeatCount="indefinite"/></path>
   </svg>
 
-  <div class="hero-tag">Student-First Platform</div>
+  <div class="hero-tag">Gaming-Oriented Learning Platform</div>
 
-  <h1>Where <em>Engineers</em><br>Are Born,<br>Not Just Taught.</h1>
+  <h1>Level Up Your<br>Engineering Skills.<br>Unlock the <em>Villa</em>.</h1>
 
-  <div class="hero-code">
-    <div><span class="cm">// EngineersVilla Mission</span></div>
-    <div><span class="kw">const</span> student = <span class="fn">buildSkills</span>({</div>
-    <div>&nbsp;&nbsp;learning: <span class="str">"hands-on"</span>,</div>
-    <div>&nbsp;&nbsp;approach: <span class="str">"real-world projects"</span>,</div>
-    <div>&nbsp;&nbsp;outcome: <span class="str">"future-ready"</span></div>
-    <div>});</div>
-  </div>
+  <p class="hero-desc">
+    EngineersVilla is where students compete, build, and rise through gamified levels — working on real startup projects, earning stipends, and chasing the ultimate prize: the Key to the Villa.
+  </p>
 
   <div class="hero-actions">
-    <a href="#about-us" class="btn-primary">Explore Programs</a>
-    <a href="#drop-message" class="btn-outline">Talk to Us</a>
+    <a href="#ecosystem" class="btn-primary">Explore the Ecosystem →</a>
+    <a href="#contact-us" class="btn-outline">Get in Touch</a>
   </div>
 
   <div class="hero-float">
     <div class="float-card">
-      <div class="float-num">A</div>
-      <div class="float-lbl">Students Trained</div>
+      <div class="float-num">🎮</div>
+      <div class="float-lbl">Gamified Levels</div>
     </div>
     <div class="float-card">
-      <div class="float-num">B</div>
-      <div class="float-lbl">Live Projects</div>
+      <div class="float-num">🚀</div>
+      <div class="float-lbl">Startup Projects</div>
     </div>
     <div class="float-card">
-      <div class="float-num">C</div>
-      <div class="float-lbl">Placement Rate</div>
+      <div class="float-num">🔑</div>
+      <div class="float-lbl">Key to Villa</div>
     </div>
   </div>
 </section>
 
-<!-- PROGRAMS STRIP -->
-<div class="programs-strip">
-  <div class="strip-label">Programs We Offer</div>
-  <div class="strip-items">
-    <div class="strip-item">⚡ Embedded Systems</div>
-    <div class="strip-item">🌐 Full-Stack Web Dev</div>
-    <div class="strip-item">🤖 AI & Machine Learning</div>
-    <div class="strip-item">📡 IoT Engineering</div>
-    <div class="strip-item">🔌 PCB Design</div>
-    <div class="strip-item">☁️ Cloud & DevOps</div>
-    <div class="strip-item">🔒 Cybersecurity</div>
-    <div class="strip-item">📱 Mobile App Dev</div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- PARTNERS -->
-<section id="partners">
+<!-- ══ ECOSYSTEM ══ -->
+<section id="ecosystem">
   <div class="wrap">
-    <div class="partners-top">
-      <div class="fade">
-        <div class="tag">Industry Ecosystem</div>
-        <h2>Our Trusted Partners</h2>
-        <p class="sub">We bridge the gap between academics and industry — connecting students directly with real companies.</p>
-      </div>
-      <a href="#drop-message" class="btn-outline fade" style="transition-delay:.1s;white-space:nowrap">Become a Partner →</a>
+    <div class="fade" id="ecosystem-platform">
+      <div class="tag">Practical Skill Platform</div>
+      <h2>More Than a Platform.<br>It's a <em style="font-style:normal;color:var(--cyan)">Living Skill Engine.</em></h2>
+      <p class="sub">EngineersVilla is a practical skill enhancement platform where real startup challenges, mentorship, and outcome-focused learning come together. Students build real-world engineering capabilities while companies access verified talent.</p>
     </div>
 
-    <div class="partners-grid">
-      <div class="p-card fade">
-        <div class="p-icon">🏭</div>
-        <div class="p-name">TechCore Industries</div>
-        <div class="p-role">Manufacturing & Automation</div>
-        <div class="p-badge">Hiring Partner</div>
+    <div class="eco-grid fade" style="transition-delay:.1s">
+      <div class="eco-card">
+        <div class="eco-icon">🎯</div>
+        <div class="eco-title">Mission-Based Learning</div>
+        <div class="eco-desc">Every lesson is a mission. Students complete challenge-driven missions that teach real engineering skills through doing, not just watching.</div>
       </div>
-      <div class="p-card fade" style="transition-delay:.07s">
-        <div class="p-icon">💻</div>
-        <div class="p-name">DevNest Labs</div>
-        <div class="p-role">Software Development</div>
-        <div class="p-badge">Project Partner</div>
+      <div class="eco-card">
+        <div class="eco-icon">🏆</div>
+        <div class="eco-title">Competitive Leaderboards</div>
+        <div class="eco-desc">Compete in real-time against peers. Leaderboards, seasonal rankings, and head-to-head battles keep the stakes high and the motivation higher.</div>
       </div>
-      <div class="p-card fade" style="transition-delay:.14s">
-        <div class="p-icon">🔬</div>
-        <div class="p-name">InnoResearch Hub</div>
-        <div class="p-role">R&D & Innovation</div>
-        <div class="p-badge">Research Partner</div>
+      <div class="eco-card">
+        <div class="eco-icon">🤝</div>
+        <div class="eco-title">Startup Integration</div>
+        <div class="eco-desc">Students don't simulate startups — they work inside them. Real product challenges from real companies, for real impact.</div>
       </div>
-      <div class="p-card fade" style="transition-delay:.21s">
-        <div class="p-icon">📡</div>
-        <div class="p-name">SignalX Networks</div>
-        <div class="p-role">Telecom & IoT</div>
-        <div class="p-badge">Hiring Partner</div>
+      <div class="eco-card">
+        <div class="eco-icon">💼</div>
+        <div class="eco-title">Elite Talent Pool</div>
+        <div class="eco-desc">Every student builds a verified performance profile. Top performers enter an exclusive talent pool that MNCs and companies actively recruit from.</div>
       </div>
-      <div class="p-card fade" style="transition-delay:.28s">
-        <div class="p-icon">🎓</div>
-        <div class="p-name">SkillBridge Academy</div>
-        <div class="p-role">Education & Certification</div>
-        <div class="p-badge">Edu Partner</div>
+      <div class="eco-card">
+        <div class="eco-icon">💸</div>
+        <div class="eco-title">Performance Stipends</div>
+        <div class="eco-desc">Earn while you learn. Students at higher levels receive stipends tied to their contributions and results inside the ecosystem.</div>
       </div>
-      <div class="p-card fade" style="transition-delay:.35s">
-        <div class="p-icon">☁️</div>
-        <div class="p-name">CloudForge Systems</div>
-        <div class="p-role">Cloud Infrastructure</div>
-        <div class="p-badge">Tech Partner</div>
+      <div class="eco-card">
+        <div class="eco-icon">🧭</div>
+        <div class="eco-title">Expert Mentorship</div>
+        <div class="eco-desc">Industry veterans guide students through their journey. Mentors assigned based on track, level, and career goals.</div>
       </div>
-      <div class="p-card fade" style="transition-delay:.35s">
-        <div class="p-icon">☁️</div>
-        <div class="p-name">Demo</div>
-        <div class="p-role">Demo</div>
-        <div class="p-badge">Tech Partner</div>
+
+      <!-- THE KEY TO THE VILLA — MEGA CARD -->
+      <div class="eco-card key-card fade" style="transition-delay:.2s">
+        <div class="key-card-left">
+          <div class="key-card-badge">The Grand Prize — Mega Winner Only</div>
+          <div class="key-card-title">🔑 The Key to<br>the Villa</div>
+          <p class="key-card-desc">
+            At the top of every season stands one winner. Not a certificate. Not a badge. A real, physical Key — the ultimate symbol of engineering excellence at EngineersVilla. The Mega Winner is the student who outcompeted everyone, built the best, and earned the most. The Key to the Villa is their reward: an exclusive prize that unlocks opportunities no ordinary path can offer.
+          </p>
+        </div>
+        <div class="key-card-right">
+          <div class="key-bullet">
+            <div class="key-bullet-icon">🏅</div>
+            <div class="key-bullet-text">
+              <strong>The Title of Mega Winner</strong>
+              Recognized as the top engineer of your cohort — a distinction that follows your career for life.
+            </div>
+          </div>
+          <div class="key-bullet">
+            <div class="key-bullet-icon">🌐</div>
+            <div class="key-bullet-text">
+              <strong>Exclusive Opportunities</strong>
+              Doors that simply aren't open to anyone else — handpicked startup roles, company fast-tracks, and industry access reserved for the best.
+            </div>
+          </div>
+          <div class="key-bullet">
+            <div class="key-bullet-icon">⚡</div>
+            <div class="key-bullet-text">
+              <strong>A Reward Worth Fighting For</strong>
+              The Key to the Villa is designed to be extraordinary — because so is the journey it takes to earn it.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="p-card fade" style="transition-delay:.35s">
-        <div class="p-icon">☁️</div>
-        <div class="p-name">Demo</div>
-        <div class="p-role">Demo</div>
-        <div class="p-badge">Tech Partner</div>
-    </div>
-    <div class="p-card fade" style="transition-delay:.35s">
-        <div class="p-icon">☁️</div>
-        <div class="p-name">Demo</div>
-        <div class="p-role">Demo</div>
-        <div class="p-badge">Tech Partner</div>
+    <div class="programs-grid fade" style="transition-delay:.1s">
+      <div class="program-card"><div class="p-icon-wrap">⚡</div><div class="p-title">Embedded Systems</div><div class="p-desc">Microcontrollers, IoT devices, and robotics in the real world.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">🌐</div><div class="p-title">Full-Stack Web Dev</div><div class="p-desc">End-to-end web applications from frontend to backend.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">🤖</div><div class="p-title">AI & Machine Learning</div><div class="p-desc">Intelligent systems and models for real-world applications.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">📡</div><div class="p-title">IoT Engineering</div><div class="p-desc">Connect the physical world to the internet.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">🔌</div><div class="p-title">PCB Design</div><div class="p-desc">Custom circuit boards for hardware prototypes.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">☁️</div><div class="p-title">Cloud & DevOps</div><div class="p-desc">Scalable apps and automated development pipelines.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">🔒</div><div class="p-title">Cybersecurity</div><div class="p-desc">Protect systems from digital threats and vulnerabilities.</div></div>
+      <div class="program-card"><div class="p-icon-wrap">📱</div><div class="p-title">Mobile App Dev</div><div class="p-desc">Native and cross-platform mobile applications.</div></div>
     </div>
 
-</section>
+    <div class="fade" id="ecosystem-who" style="margin-top:4rem; text-align:center;">
+      <div class="tag" style="justify-content:center">Who It's For</div>
+      <h2 style="margin-bottom:1rem;">Built for <em style="font-style:normal;color:var(--cyan)">Students, Startups, and Companies.</em></h2>
+      <p class="sub" style="max-width:760px; margin:0 auto;">Whether you are a learner ready to build practical skills, a startup hunting for vetted talent, or a company looking for engineers with real project experience — EngineersVilla connects everyone through hands-on work.</p>
+    </div>
 
-<div class="divider"></div>
+    <div class="who-grid fade" style="transition-delay:.1s; margin-top:2.5rem;">
+      <div class="who-card">
+        <div class="who-avatar">🎓</div>
+        <div class="who-title">Engineering Students</div>
+        <div class="who-desc">Build practical engineering skills through real product work, competitions, and mentor-led challenges.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-avatar">🚀</div>
+        <div class="who-title">Startups</div>
+        <div class="who-desc">Tap into a performance-ranked talent pool that can deliver startup-ready solutions fast.</div>
+      </div>
+      <div class="who-card">
+        <div class="who-avatar">🏢</div>
+        <div class="who-title">Companies & MNCs</div>
+        <div class="who-desc">Hire engineers with verified experience and practical skills, not just certificates.</div>
+      </div>
+    </div>
 
-<!-- ABOUT US -->
-<section id="about-us">
-  <div class="wrap">
-    <div class="about-layout">
+    <div class="fade" id="ecosystem-how" style="margin-top:4rem;">
+      <div class="tag">How It Works</div>
+      <h2>Your Practical Growth Journey,<br><em style="font-style:normal;color:var(--cyan)">Command by Command.</em></h2>
+    </div>
 
-      <!-- Terminal -->
-      <div class="terminal fade">
+    <div class="terminal-layout fade" style="transition-delay:.1s; margin-top:2rem;">
+      <div class="terminal">
         <div class="term-bar">
           <div class="term-dot" style="background:#ff5f56"></div>
           <div class="term-dot" style="background:#ffbd2e"></div>
           <div class="term-dot" style="background:#27c93f"></div>
-          <div class="term-title">EngineersVilla ~ Student-Journey</div>
+          <div class="term-title">EngineersVilla ~ Skill Journey</div>
         </div>
         <div class="term-body">
-          <div><span class="t-prompt">ev@student:~$</span> <span class="t-cmd">enroll --program "Full Stack"</span></div>
-          <div><span class="t-out">→ Loading curriculum...</span></div>
-          <div><span class="t-ok">✔ Hands-on projects activated</span></div>
-          <div><span class="t-ok">✔ Mentor assigned: industry expert</span></div>
-          <div><span class="t-warn">⚡ Building real-world skills...</span></div>
-          <div style="margin-top:.5rem"><span class="t-prompt">ev@student:~$</span> <span class="t-cmd">run project.build()</span></div>
-          <div><span class="t-out">Compiling knowledge... 100%</span></div>
-          <div><span class="t-ok">✔ Student is FUTURE-READY 🚀</span></div>
-          <div style="margin-top:.5rem"><span class="t-prompt">ev@student:~$</span> <span class="cursor-blink"></span></div>
+          <div><span class="t-prompt">villa@mission:~$</span> <span class="t-cmd">./start_adventure --level 1</span></div>
+          <div><span class="t-out">→ Launching practical skill enhancement...</span></div>
+          <div><span class="t-ok">✔ Mission 1: Complete first live project</span></div>
+          <div><span class="t-ok">✔ Rank updated: Level 02 unlocked</span></div>
+          <div><span class="t-warn">⚡ Startup challenge received — join now...</span></div>
+          <div style="margin-top:.5rem"><span class="t-prompt">villa@mission:~$</span> <span class="t-cmd">./earn_stipend --performance high</span></div>
+          <div><span class="t-out">→ Calculating contribution score...</span></div>
+          <div><span class="t-ok">✔ Stipend earned — Skill growth active</span></div>
+          <div><span class="t-warn">⚡ Advancing toward Elite status...</span></div>
+          <div style="margin-top:.5rem"><span class="t-prompt">villa@mission:~$</span> <span class="t-cmd">./unlock_villa</span></div>
+          <div><span class="t-ok">✔ KEY TO VILLA UNLOCKED 🔑</span></div>
+          <div style="margin-top:.5rem"><span class="t-prompt">villa@mission:~$</span> <span class="cursor-blink"></span></div>
         </div>
-
         <div class="prog-wrap" style="padding: 0 1.5rem 1.5rem">
           <div class="prog-item">
-            <div class="prog-header">
-              <span class="prog-label">Practical Skills</span>
-              <span class="prog-val">95%</span>
-            </div>
-            <div class="prog-track"><div class="prog-fill" style="--w:.95"></div></div>
+            <div class="prog-header"><span class="prog-label">Level Progression</span><span class="prog-val">ACTIVE</span></div>
+            <div class="prog-track"><div class="prog-fill" style="--w:.85"></div></div>
           </div>
           <div class="prog-item">
-            <div class="prog-header">
-              <span class="prog-label">Industry Readiness</span>
-              <span class="prog-val">90%</span>
-            </div>
-            <div class="prog-track"><div class="prog-fill" style="--w:.90"></div></div>
+            <div class="prog-header"><span class="prog-label">Startup Projects</span><span class="prog-val">ONGOING</span></div>
+            <div class="prog-track"><div class="prog-fill" style="--w:.70"></div></div>
           </div>
           <div class="prog-item">
-            <div class="prog-header">
-              <span class="prog-label">Project Completion Rate</span>
-              <span class="prog-val">98%</span>
-            </div>
-            <div class="prog-track"><div class="prog-fill" style="--w:.98"></div></div>
+            <div class="prog-header"><span class="prog-label">Skill Mastery</span><span class="prog-val">IN PROGRESS</span></div>
+            <div class="prog-track"><div class="prog-fill" style="--w:.65"></div></div>
           </div>
         </div>
       </div>
 
-      <!-- Text -->
-      <div class="fade" style="transition-delay:.15s">
-        <div class="tag">About Us</div>
-        <h2>We Don't Just<br>Teach — We Build<br><em style="font-style:normal;color:var(--cyan)">Engineers.</em></h2>
-        <p class="sub">
-          EngineersVilla is a student-first platform designed to bridge the massive gap between college education and real industry expectations. We train students with hands-on, project-based learning that actually matters.
-        </p>
-
-        <div class="skills-grid">
-          <div class="skill-tile">
-            <div class="s-icon">🛠️</div>
-            <div class="s-title">Project-Based</div>
-            <div class="s-desc">Every module ends with a deployable, real-world project for your portfolio.</div>
+      <div class="terminal-details">
+        <div class="detail-item">
+          <div class="detail-num">01</div>
+          <div>
+            <div class="detail-title">Enroll & Choose Your Track</div>
+            <div class="detail-desc">Sign up, pick your engineering discipline, and start your first missions. The platform adapts to your skill level and pace.</div>
           </div>
-          <div class="skill-tile">
-            <div class="s-icon">👨‍💼</div>
-            <div class="s-title">Industry Mentors</div>
-            <div class="s-desc">Learn directly from engineers working at top tech companies.</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-num">02</div>
+          <div>
+            <div class="detail-title">Compete & Rise in the Levels</div>
+            <div class="detail-desc">Take on challenges against real peers. Win missions, earn points, and build practical capabilities every week.</div>
           </div>
-          <div class="skill-tile">
-            <div class="s-icon">📈</div>
-            <div class="s-title">Career Launchpad</div>
-            <div class="s-desc">Resume building, mock interviews, and direct hiring partner connections.</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-num">03</div>
+          <div>
+            <div class="detail-title">Build for Startups, Earn Stipends</div>
+            <div class="detail-desc">Get matched with startups, contribute to live products, and earn performance-based stipends for your work.</div>
           </div>
-          <div class="skill-tile">
-            <div class="s-icon">🔁</div>
-            <div class="s-title">Iterative Learning</div>
-            <div class="s-desc">Build → fail → learn → rebuild. We make failure a feature, not a bug.</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-num">04</div>
+          <div>
+            <div class="detail-title">Win the Key to the Villa</div>
+            <div class="detail-desc">Top performers earn the Key, a symbol of practical skill mastery and elite engineering readiness.</div>
           </div>
         </div>
       </div>
@@ -864,13 +897,14 @@
 
 <div class="divider"></div>
 
-<!-- CONTACT US -->
+<!-- ══ CONTACT ══ -->
 <section id="contact-us">
   <div class="wrap">
     <div class="contact-layout">
       <div class="fade">
-        <div class="tag">Contact Us</div>
-        <p class="sub">Whether you're a student ready to level up, a college looking to partner, or a company seeking trained talent — we're here.</p>
+        <div class="tag">Join The Mission</div>
+        <h2>Ready to<br><em style="font-style:normal;color:var(--cyan)">Play?</em></h2>
+        <p class="sub">Whether you're a student ready to compete, a startup seeking talent, or a company looking to hire the best engineers — the Villa has a place for you.</p>
 
         <div class="c-info">
           <div class="c-item">
@@ -904,37 +938,37 @@
         </div>
       </div>
 
-      <div id="drop-message" class="c-form fade" style="transition-delay:.15s">
-        <h3>Drop Us a Message</h3>
+      <div class="c-form fade" style="transition-delay:.15s">
+        <h3>Start Your Adventure</h3>
         <div class="row2">
           <div class="field">
             <label>First Name</label>
-            <input id="firstName" type="text" placeholder="Arjun"/>
+            <input id="firstName" type="text" placeholder="Your name"/>
           </div>
           <div class="field">
             <label>Last Name</label>
-            <input id="lastName" type="text" placeholder="Menon"/>
+            <input id="lastName" type="text" placeholder="Your surname"/>
           </div>
         </div>
         <div class="field">
           <label>Email</label>
-          <input id="email" type="email" placeholder="arjun@college.edu"/>
+          <input id="email" type="email" placeholder="your.email@example.com"/>
         </div>
         <div class="field">
           <label>I am a...</label>
           <select id="role">
-            <option>Student looking to enroll</option>
-            <option>College / Institution</option>
-            <option>Company / Hiring Partner</option>
-            <option>Mentor / Instructor</option>
+            <option>Student — Ready to take on missions</option>
+            <option>Startup — Looking for talent</option>
+            <option>Company / MNC — Hiring engineers</option>
+            <option>Mentor / Industry Expert</option>
             <option>Other</option>
           </select>
         </div>
         <div class="field">
           <label>Message</label>
-          <textarea id="message" placeholder="Tell us what you're looking for…"></textarea>
+          <textarea id="message" placeholder="Tell us about your mission..."></textarea>
         </div>
-        <button class="btn-primary" id="send-btn" style="width:100%">Send Message →</button>
+        <button class="btn-primary" id="send-btn" style="width:100%">Join the Mission →</button>
       </div>
     </div>
   </div>
@@ -942,8 +976,10 @@
 
 <!-- FOOTER -->
 <footer>
+  <div class="logo-text" style="font-size:.95rem">
+    <span style="color:var(--cyan);font-family:'Orbitron',sans-serif">Engineers</span><span style="font-family:'Orbitron',sans-serif">Villa</span>
   </div>
-  <div class="foot-copy">© 2026 EngineersVilla. Built for students, by engineers.</div>
+  <div class="foot-copy">© 2026 EngineersVilla. Build. Innovate. Inspire. 🔑</div>
   <div class="foot-links">
     <a href="{{ url_for('privacy') }}">Privacy Policy</a>
     <a href="{{ url_for('terms') }}">Terms Of Use</a>
@@ -951,35 +987,21 @@
 </footer>
 
 <script>
-  // Custom cursor — only activate on real mouse devices
+  // Custom cursor
   const cur = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
   let cursorActive = false;
   document.addEventListener('mousemove', e => {
-    if (!cursorActive) {
-      cursorActive = true;
-      cur.style.opacity = '1';
-      ring.style.opacity = '1';
-    }
-    cur.style.left = e.clientX + 'px';
-    cur.style.top  = e.clientY + 'px';
-    setTimeout(() => {
-      ring.style.left = e.clientX + 'px';
-      ring.style.top  = e.clientY + 'px';
-    }, 60);
+    if (!cursorActive) { cursorActive = true; cur.style.opacity = '1'; ring.style.opacity = '1'; }
+    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
   });
-  document.querySelectorAll('a,button,.p-card,.skill-tile,.float-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cur.style.width = '16px'; cur.style.height = '16px';
-      ring.style.width = '52px'; ring.style.height = '52px';
-    });
-    el.addEventListener('mouseleave', () => {
-      cur.style.width = '10px'; cur.style.height = '10px';
-      ring.style.width = '36px'; ring.style.height = '36px';
-    });
+  document.querySelectorAll('a,button,.eco-card,.who-card,.program-card,.level-content,.float-card,.perk-item,.detail-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width = '16px'; cur.style.height = '16px'; ring.style.width = '52px'; ring.style.height = '52px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width = '10px'; cur.style.height = '10px'; ring.style.width = '36px'; ring.style.height = '36px'; });
   });
 
-  // Hamburger menu
+  // Hamburger
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobile-nav');
   hamburger.addEventListener('click', () => {
@@ -987,6 +1009,38 @@
     mobileNav.classList.toggle('open');
     document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
   });
+
+  const ecoToggle = document.querySelector('.ecosystem-toggle');
+  const ecoMenu = document.querySelector('.ecosystem-menu');
+  if (ecoToggle && ecoMenu) {
+    ecoToggle.addEventListener('click', () => {
+      const expanded = ecoToggle.getAttribute('aria-expanded') === 'true';
+      ecoToggle.setAttribute('aria-expanded', String(!expanded));
+      ecoMenu.classList.toggle('open');
+    });
+  }
+
+  const mobileEcoToggle = document.querySelector('.mobile-ecosystem-toggle');
+  const mobileSubmenu = document.querySelector('.mobile-submenu');
+  if (mobileEcoToggle && mobileSubmenu) {
+    mobileEcoToggle.addEventListener('click', () => {
+      const expanded = mobileEcoToggle.getAttribute('aria-expanded') === 'true';
+      mobileEcoToggle.setAttribute('aria-expanded', String(!expanded));
+      mobileSubmenu.classList.toggle('open');
+    });
+  }
+
+  document.addEventListener('click', e => {
+    if (ecoMenu && !ecoMenu.contains(e.target)) {
+      ecoMenu.classList.remove('open');
+      ecoToggle?.setAttribute('aria-expanded', 'false');
+    }
+    if (mobileSubmenu && !mobileSubmenu.contains(e.target) && !mobileEcoToggle?.contains(e.target)) {
+      mobileSubmenu.classList.remove('open');
+      mobileEcoToggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
   document.querySelectorAll('.mobile-link').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('open');
@@ -1000,15 +1054,11 @@
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('vis');
-        // Animate progress bars
-        e.target.querySelectorAll('.prog-fill').forEach(bar => {
-          bar.classList.add('animate');
-        });
+        e.target.querySelectorAll('.prog-fill').forEach(bar => bar.classList.add('animate'));
         io.unobserve(e.target);
       }
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.fade').forEach(el => io.observe(el));
 
   // Active nav
@@ -1020,46 +1070,50 @@
     nls.forEach(a => { a.style.color = a.getAttribute('href') === '#'+cur ? 'var(--cyan)' : ''; });
   });
 
-  // Submit feedback
+  // Form submit
   document.getElementById('send-btn').addEventListener('click', async function () {
+    const btn = this;
+    const data = {
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      email: document.getElementById('email').value,
+      role: document.getElementById('role').value,
+      message: document.getElementById('message').value
+    };
+    try {
+      btn.textContent = "Launching...";
+      const res = await fetch("http://127.0.0.1:5000/send-message", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
+      });
+      if (res.ok) { btn.textContent = "✔ Mission Started!"; btn.style.background = 'linear-gradient(135deg,#0f5132,#22c55e)'; }
+      else { btn.textContent = "❌ Failed!"; }
+    } catch (err) { btn.textContent = "❌ Error!"; console.error(err); }
+    setTimeout(() => { btn.textContent = "Join the Mission →"; btn.style.background = ''; }, 3000);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const targetId = this.getAttribute('href');
 
-  const btn = this;
+    if (targetId.length > 1) {
+      e.preventDefault();
 
-  const data = {
-    firstName: document.getElementById('firstName').value,
-    lastName: document.getElementById('lastName').value,
-    email: document.getElementById('email').value,
-    role: document.getElementById('role').value,
-    message: document.getElementById('message').value
-  };
+      const target = document.querySelector(targetId);
 
-  try {
-    btn.textContent = "Sending...";
+      if (target) {
+        const navHeight = document.querySelector('nav').offsetHeight;
 
-    const res = await fetch("http://127.0.0.1:5000/send-message", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+        const targetPosition =
+          target.getBoundingClientRect().top +
+          window.pageYOffset -
+          navHeight - 20;
 
-    if (res.ok) {
-      btn.textContent = "✔ Message Sent!";
-      btn.style.background = 'linear-gradient(135deg,#0f5132,#22c55e)';
-    } else {
-      btn.textContent = "❌ Failed!";
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
-
-  } catch (err) {
-    btn.textContent = "❌ Error!";
-    console.error(err);
-  }
-
-  setTimeout(() => {
-    btn.textContent = "Send Message →";
-    btn.style.background = '';
-  }, 3000);
+  });
 });
 </script>
 </body>

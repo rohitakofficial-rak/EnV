@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -173,6 +173,10 @@ def privacy():
 @app.route('/terms')
 def terms():
     return render_template('terms.html')
+
+@app.route('/partners')
+def partners():
+    return render_template('partners.html')
 
 
 # 🚀 Run App

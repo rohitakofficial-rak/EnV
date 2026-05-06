@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Partners — EngineersVilla</title>
+  <link rel="icon" href="{{ url_for('static', filename='5.png') }}" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #020b18;
+      --bg2:      #041020;
+      --surface:  #071628;
+      --card:     rgba(8, 25, 50, 0.75);
+      --blue-d:   #0a2a5e;
+      --blue:     #1557d4;
+      --blue-m:   #2b7fff;
+      --cyan:     #00d4ff;
+      --glow:     #40e0ff;
+      --white:    #eef6ff;
+      --muted:    #6a96c2;
+      --faint:    rgba(43, 127, 255, 0.12);
+      --border:   rgba(43, 127, 255, 0.18);
+      --gold:     #f5c842;
+      --gold-d:   #c49a10;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ── */
+    #cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--cyan); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .1s, width .2s, height .2s, opacity .2s;
+      mix-blend-mode: screen; opacity: 0;
+    }
+    #cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,212,255,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .18s ease, width .25s, height .25s; opacity: 0;
+    }
+    @media (hover: none) and (pointer: coarse) {
+      #cursor, #cursor-ring { display: none !important; }
+      body { cursor: auto; }
+    }
+
+    /* ── Grid BG ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(43,127,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43,127,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 6%;
+      background: rgba(2, 11, 24, 0.92);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: inherit; }
+    .logo-img { width: 46px; height: 46px; object-fit: contain; }
+    .logo-copy { display: flex; flex-direction: column; gap: .3rem; }
+    .logo-text {
+      display: flex; align-items: center; gap: .15rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      letter-spacing: .1em; color: var(--white);
+      text-transform: uppercase; font-style: italic; white-space: nowrap;
+    }
+    .logo-text .brand-cyan { color: var(--cyan); }
+    .logo-subtext {
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(238,246,255,0.85); white-space: nowrap;
+    }
+    .logo-subtext .dot { color: var(--cyan); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-family: 'Space Mono', monospace; font-size: .82rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-btn {
+      padding: .7rem 1.5rem;
+      background: transparent; border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: .82rem;
+      cursor: pointer; text-decoration: none;
+      transition: background .2s, box-shadow .2s; letter-spacing: .06em;
+    }
+    .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
+
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px; z-index: 201;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: transform .3s, opacity .3s, width .3s; transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 11, 24, 0.97); backdrop-filter: blur(20px);
+      z-index: 199; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Space Mono', monospace; font-size: 1.2rem;
+      color: var(--white); text-decoration: none; letter-spacing: .08em; transition: color .2s;
+    }
+    .mobile-nav a:hover, .mobile-nav a.nav-btn { color: var(--cyan); }
+    .mobile-nav .nav-btn { padding: .85rem 2.5rem; border: 1px solid var(--cyan); border-radius: 4px; color: var(--cyan); font-size: 1rem; margin-top: 1rem; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 9rem 6% 5rem;
+      position: relative; z-index: 1;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-scan {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      animation: scan 4s ease-in-out infinite;
+    }
+    @keyframes scan {
+      0%   { top: 0%; opacity: 1; }
+      90%  { top: 100%; opacity: .3; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .tag::before { content: ''; width: 20px; height: 1px; background: var(--cyan); }
+
+    .page-hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+    .page-hero h1 em { font-style: normal; color: var(--cyan); text-shadow: 0 0 40px rgba(0,212,255,.45); }
+
+    .page-meta {
+      display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem;
+    }
+    .meta-item {
+      display: flex; align-items: center; gap: .5rem;
+      font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--muted);
+    }
+    .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+
+    /* ── PARTNERS GRID ── */
+    .partners-section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 4rem 6%;
+      position: relative; z-index: 1;
+    }
+
+    .partners-intro {
+      text-align: center; margin-bottom: 4rem;
+    }
+    .partners-intro .tag { justify-content: center; }
+    .partners-intro h2 {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      margin-bottom: 1rem; letter-spacing: -.02em;
+    }
+    .partners-intro p {
+      font-size: 1.1rem; color: var(--muted); line-height: 1.7;
+      max-width: 600px; margin: 0 auto;
+    }
+
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .p-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+      backdrop-filter: blur(10px);
+      transition: transform .3s ease, box-shadow .3s ease;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .p-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,212,255,.15);
+    }
+
+    .p-icon {
+      font-size: 2.5rem; margin-bottom: 1rem;
+      width: 64px; height: 64px; border-radius: 12px;
+      background: var(--faint); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .p-name {
+      font-size: 1.2rem; font-weight: 600; margin-bottom: .5rem;
+      color: var(--white);
+    }
+
+    .p-role {
+      font-size: .9rem; color: var(--muted); margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .p-badge {
+      padding: .4rem .8rem;
+      background: rgba(0,212,255,.1); border: 1px solid rgba(0,212,255,.3);
+      color: var(--cyan); border-radius: 20px;
+      font-family: 'Space Mono', monospace; font-size: .7rem;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+
+    .partners-cta {
+      text-align: center; margin-top: 3rem;
+    }
+    .partners-cta .btn-outline {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: transparent; border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 6px;
+      font-family: 'Space Mono', monospace; font-size: .9rem;
+      text-decoration: none; letter-spacing: .06em;
+      transition: background .2s, box-shadow .2s;
+    }
+    .partners-cta .btn-outline:hover {
+      background: rgba(0,212,255,.1);
+      box-shadow: 0 0 20px rgba(0,212,255,.25);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 2rem 6%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1;
+    }
+    .foot-copy { font-size: .78rem; color: var(--muted); }
+    .foot-links { display: flex; gap: 1.5rem; }
+    .foot-links a { color: var(--muted); text-decoration: none; font-size: .78rem; transition: color .2s; }
+    .foot-links a:hover { color: var(--cyan); }
+
+    /* ── ANIMATIONS ── */
+    .fade { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .fade.vis { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .partners-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">
+    <img src="{{ url_for('static', filename='5.png') }}" alt="EngineersVilla Logo" class="logo-img">
+    <div class="logo-copy">
+      <div class="logo-text">
+        <span class="brand-cyan">Engineers</span><span style="color:var(--white)">Villa</span>
+      </div>
+      <div class="logo-subtext">BUILD <span class="dot">.</span> INNOVATE <span class="dot">.</span> INSPIRE</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#ecosystem">Ecosystem</a></li>
+    <li><a href="/#contact-us">Contact Us</a></li>
+    <li><a href="/partners">Our Partners</a></li>
+  </ul>
+  <a href="/#contact-us" class="nav-btn">Get Started</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="/" class="mobile-link">Home</a>
+  <a href="/#ecosystem" class="mobile-link">Ecosystem</a>
+  <a href="/#contact-us" class="mobile-link">Contact Us</a>
+  <a href="/partners" class="mobile-link">Our Partners</a>
+  <a href="/#contact-us" class="nav-btn mobile-link">Get Started</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-scan"></div>
+  <div class="tag">Industry Ecosystem</div>
+  <h1>Our Trusted <em>Partners</em></h1>
+  <div class="page-meta">
+    <div class="meta-item"><div class="meta-dot"></div>Building Future-Ready Engineers</div>
+    <div class="meta-item"><div class="meta-dot"></div>Industry-Academia Bridge</div>
+  </div>
+</div>
+
+<!-- PARTNERS CONTENT -->
+<div class="partners-section">
+  <div class="partners-intro fade">
+    <h2>Bridging Academia & Industry</h2>
+    <p>We collaborate with leading companies and institutions to provide students with real-world exposure, internships, and career opportunities. Our partners help shape the curriculum and ensure our graduates are industry-ready.</p>
+  </div>
+
+  <div class="partners-grid">
+    <div class="p-card fade">
+      <div class="p-icon">🏭</div>
+      <div class="p-name">TechCore Industries</div>
+      <div class="p-role">Manufacturing & Automation</div>
+      <div class="p-badge">Hiring Partner</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.07s">
+      <div class="p-icon">💻</div>
+      <div class="p-name">DevNest Labs</div>
+      <div class="p-role">Software Development</div>
+      <div class="p-badge">Project Partner</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.14s">
+      <div class="p-icon">🔬</div>
+      <div class="p-name">InnoResearch Hub</div>
+      <div class="p-role">R&D & Innovation</div>
+      <div class="p-badge">Research Partner</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.21s">
+      <div class="p-icon">📡</div>
+      <div class="p-name">SignalX Networks</div>
+      <div class="p-role">Telecom & IoT</div>
+      <div class="p-badge">Hiring Partner</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.28s">
+      <div class="p-icon">🎓</div>
+      <div class="p-name">SkillBridge Academy</div>
+      <div class="p-role">Education & Certification</div>
+      <div class="p-badge">Edu Partner</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.35s">
+      <div class="p-icon">☁️</div>
+      <div class="p-name">CloudForge Systems</div>
+      <div class="p-role">Cloud Infrastructure</div>
+      <div class="p-badge">Tech Partner</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.42s">
+      <div class="p-icon">⚡</div>
+      <div class="p-name">Demo Partner</div>
+      <div class="p-role">Demo Description</div>
+      <div class="p-badge">Demo Badge</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.49s">
+      <div class="p-icon">🚀</div>
+      <div class="p-name">Demo Partner</div>
+      <div class="p-role">Demo Description</div>
+      <div class="p-badge">Demo Badge</div>
+    </div>
+    <div class="p-card fade" style="transition-delay:.56s">
+      <div class="p-icon">🔧</div>
+      <div class="p-name">Demo Partner</div>
+      <div class="p-role">Demo Description</div>
+      <div class="p-badge">Demo Badge</div>
+    </div>
+  </div>
+
+  <div class="partners-cta fade">
+    <a href="/#contact-us" class="btn-outline">Become a Partner →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo-text" style="font-size:.95rem">
+    <span style="color:var(--cyan);font-family:'Orbitron',sans-serif">Engineers</span><span style="font-family:'Orbitron',sans-serif">Villa</span>
+  </div>
+  <div class="foot-copy">© 2026 EngineersVilla. Build. Innovate. Inspire. 🔑</div>
+  <div class="foot-links">
+    <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+    <a href="{{ url_for('terms') }}">Terms Of Use</a>
+  </div>
+</footer>
+
+<script>
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobile-nav');
+if (hamburger) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+// Custom cursor
+document.addEventListener('DOMContentLoaded', function() {
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursor-ring');
+
+  document.addEventListener('mousemove', function(e) {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    cursor.style.opacity = '1';
+
+    cursorRing.style.left = e.clientX + 'px';
+    cursorRing.style.top = e.clientY + 'px';
+  });
+
+  document.addEventListener('mouseleave', function() {
+    cursor.style.opacity = '0';
+  });
+
+  // Fade in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('vis');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+});
+</script>
+
+</body>
+</html>
