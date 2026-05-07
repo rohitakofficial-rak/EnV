@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Privacy Policy — EngineersVilla</title>
   <link rel="icon" href="{{ url_for('static', filename='5.png') }}" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -69,32 +69,48 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 3%;
-      background: rgba(2, 11, 24, 0.82);
-      backdrop-filter: blur(20px);
+      padding: 1.25rem 6%;
+      background: rgba(2, 11, 24, 0.92);
+      backdrop-filter: blur(24px);
       border-bottom: 1px solid var(--border);
     }
 
-    .logo { display: flex; align-items: center; gap: .6rem; }
-    .logo-img { height: 36px; width: auto; }
+    .logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: inherit; }
+    .logo-img { width: 46px; height: 46px; object-fit: contain; }
+    .logo-copy { display: flex; flex-direction: column; gap: .3rem; }
+    .logo-text {
+      display: flex; align-items: center; gap: .15rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      letter-spacing: .1em; color: var(--white);
+      text-transform: uppercase; font-style: italic; white-space: nowrap;
+    }
+    .logo-text .brand-cyan { color: var(--cyan); }
+    .logo-subtext {
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(238,246,255,0.85); white-space: nowrap;
+    }
+    .logo-subtext .dot { color: var(--cyan); }
 
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       color: var(--muted); text-decoration: none;
-      font-family: 'Space Mono', monospace; font-size: .78rem; font-weight: 500;
+      font-family: 'Space Mono', monospace; font-size: .82rem;
       transition: color .2s;
     }
     .nav-links a:hover { color: var(--cyan); }
 
     .nav-btn {
-      padding: .55rem 1.4rem;
-      background: transparent; border: 1px solid var(--cyan);
-      color: var(--cyan); border-radius: 4px;
-      font-family: 'Space Mono', monospace; font-size: .75rem;
+      padding: .7rem 1.5rem;
+      background: linear-gradient(135deg, rgba(21,87,212,.15), rgba(0,212,255,.1)); border: 1.5px solid var(--cyan);
+      color: var(--cyan); border-radius: 4px; font-weight: 700;
+      font-family: 'Space Mono', monospace; font-size: .82rem;
       cursor: pointer; text-decoration: none;
-      transition: background .2s, box-shadow .2s; letter-spacing: .06em;
+      transition: background .2s, box-shadow .2s, transform .2s; letter-spacing: .06em;
     }
-    .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
+    .nav-btn:hover { background: linear-gradient(135deg, rgba(21,87,212,.25), rgba(0,212,255,.2)); box-shadow: 0 0 24px rgba(0,212,255,.4), 0 0 40px rgba(21,87,212,.2); transform: translateY(-2px); }
 
     /* ── HAMBURGER & MOBILE NAV ── */
     .hamburger {
@@ -319,6 +335,7 @@
       .nav-links { display: none; }
       .nav-btn { display: none; }
       .hamburger { display: flex; }
+      .logo-text { font-size: 1rem; }
       .page-hero { padding: 7rem 5% 4rem; }
     }
     @media (max-width: 768px) {
@@ -363,14 +380,20 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo">
+  <a href="/" class="logo">
     <img src="{{ url_for('static', filename='5.png') }}" alt="EngineersVilla Logo" class="logo-img">
-  </div>
+    <div class="logo-copy">
+      <div class="logo-text">
+        <span class="brand-cyan">Engineers</span><span style="color:var(--white)">Villa</span>
+      </div>
+      <div class="logo-subtext">BUILD <span class="dot">.</span> INNOVATE <span class="dot">.</span> INSPIRE</div>
+    </div>
+  </a>
   <ul class="nav-links">
     <li><a href="/">Home</a></li>
-    <li><a href="/#partners">Partners</a></li>
-    <li><a href="/#about">About Us</a></li>
-    <li><a href="/#contact-us">Contact</a></li>
+    <li><a href="/#ecosystem">About Us</a></li>
+    <li><a href="/#contact-us">Contact Us</a></li>
+    <li><a href="/partners">Our Partners</a></li>
   </ul>
   <a href="/#contact-us" class="nav-btn">Get Started</a>
   <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
@@ -379,9 +402,9 @@
 <!-- Mobile Nav -->
 <div class="mobile-nav" id="mobile-nav">
   <a href="/" class="mobile-link">Home</a>
-  <a href="/#partners" class="mobile-link">Partners</a>
-  <a href="/#about" class="mobile-link">About Us</a>
-  <a href="/#contact-us" class="mobile-link">Contact</a>
+  <a href="/#ecosystem" class="mobile-link">About Us</a>
+  <a href="/#contact-us" class="mobile-link">Contact Us</a>
+  <a href="/partners" class="mobile-link">Our Partners</a>
   <a href="/#contact-us" class="nav-btn mobile-link">Get Started</a>
 </div>
 
