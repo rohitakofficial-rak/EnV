@@ -72,7 +72,7 @@
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: space-between;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
       padding: 1.25rem 6%;
       background: rgba(2, 11, 24, 0.92);
       backdrop-filter: blur(24px);
@@ -112,6 +112,7 @@
       font-family: 'Space Mono', monospace; font-size: .82rem;
       cursor: pointer; text-decoration: none;
       transition: background .2s, box-shadow .2s, transform .2s; letter-spacing: .06em;
+      justify-self: end;
     }
     .nav-btn:hover { background: linear-gradient(135deg, rgba(21,87,212,.25), rgba(0,212,255,.2)); box-shadow: 0 0 24px rgba(0,212,255,.4), 0 0 40px rgba(21,87,212,.2); transform: translateY(-2px); }
 
@@ -534,7 +535,8 @@
       .terminal-layout { grid-template-columns: 1fr; gap: 3rem; }
       .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
       .row2 { grid-template-columns: 1fr; }
-      nav { padding: 1rem 5%; }
+      nav { padding: 1rem 5%; grid-template-columns: 1fr auto; }
+      .hamburger { justify-self: end; }
       .logo-text { font-size: 1rem; }
     }
     @media (max-width: 600px) {
@@ -902,7 +904,6 @@
           <div style="margin-left:auto;color:var(--muted);font-size:1.2rem;">→</div>
         </a>
 
-        <a href="https://wa.me/919995781910" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:block;width:100%;text-align:center;margin-top:1.5rem;text-decoration:none;">Join the Mission →</a>
       </div>
     </div>
   </div>

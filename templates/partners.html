@@ -72,7 +72,7 @@
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: space-between;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
       padding: 1.25rem 6%;
       background: rgba(2, 11, 24, 0.92);
       backdrop-filter: blur(24px);
@@ -112,6 +112,7 @@
       font-family: 'Space Mono', monospace; font-size: .82rem;
       cursor: pointer; text-decoration: none;
       transition: background .2s, box-shadow .2s; letter-spacing: .06em;
+      justify-self: end;
     }
     .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
 
@@ -283,7 +284,8 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      nav { padding: 1rem 5%; }
+      nav { padding: 1rem 5%; grid-template-columns: 1fr auto; }
+      .hamburger { justify-self: end; }
       .nav-links { display: none; }
       nav > .nav-btn { display: none; }
       .hamburger { display: flex; }
