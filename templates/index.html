@@ -107,14 +107,14 @@
 
     .nav-btn {
       padding: .7rem 1.5rem;
-      background: linear-gradient(135deg, rgba(21,87,212,.15), rgba(0,212,255,.1)); border: 1.5px solid var(--cyan);
-      color: var(--cyan); border-radius: 4px; font-weight: 700;
+      background: transparent; border: 1px solid var(--cyan);
+      color: var(--cyan); border-radius: 4px;
       font-family: 'Space Mono', monospace; font-size: .82rem;
       cursor: pointer; text-decoration: none;
-      transition: background .2s, box-shadow .2s, transform .2s; letter-spacing: .06em;
+      transition: background .2s, box-shadow .2s; letter-spacing: .06em;
       justify-self: end;
     }
-    .nav-btn:hover { background: linear-gradient(135deg, rgba(21,87,212,.25), rgba(0,212,255,.2)); box-shadow: 0 0 24px rgba(0,212,255,.4), 0 0 40px rgba(21,87,212,.2); transform: translateY(-2px); }
+    .nav-btn:hover { background: rgba(0,212,255,.1); box-shadow: 0 0 18px rgba(0,212,255,.25); }
 
     .hamburger {
       display: none; flex-direction: column; justify-content: center; gap: 5px;
