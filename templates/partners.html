@@ -97,7 +97,10 @@
     }
     .logo-subtext .dot { color: var(--cyan); }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
     .nav-links a {
       color: var(--muted); text-decoration: none;
       font-family: 'Space Mono', monospace; font-size: .82rem;
