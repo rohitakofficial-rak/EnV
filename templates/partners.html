@@ -97,10 +97,7 @@
     }
     .logo-subtext .dot { color: var(--cyan); }
 
-    .nav-links {
-      display: flex; gap: 2rem; list-style: none;
-      position: absolute; left: 50%; transform: translateX(-50%);
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       color: var(--muted); text-decoration: none;
       font-family: 'Space Mono', monospace; font-size: .82rem;
@@ -348,10 +345,11 @@
   </a>
   <ul class="nav-links">
     <li><a href="/">Home</a></li>
-    <li><a href="/#ecosystem">Ecosystem</a></li>
+    <li><a href="/#ecosystem">About Us</a></li>
     <li><a href="/#contact-us">Contact Us</a></li>
     <li><a href="/partners">Our Partners</a></li>
   </ul>
+  <a href="/#contact-us" class="nav-btn">Become a Partner</a>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
@@ -360,15 +358,16 @@
 <!-- Mobile Nav -->
 <div class="mobile-nav" id="mobile-nav">
   <a href="/" class="mobile-link">Home</a>
-  <a href="/#ecosystem" class="mobile-link">Ecosystem</a>
+  <a href="/#ecosystem" class="mobile-link">About Us</a>
   <a href="/#contact-us" class="mobile-link">Contact Us</a>
   <a href="/partners" class="mobile-link">Our Partners</a>
+  <a href="/#contact-us" class="nav-btn mobile-link">Become a Partner</a>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="hero-scan"></div>
-  <div class="tag">Industry Ecosystem</div>
+  <div class="tag">Industry About Us</div>
   <h1>Our Trusted <em>Partners</em></h1>
   <div class="page-meta">
     <div class="meta-item"><div class="meta-dot"></div>Building Future-Ready Engineers</div>
@@ -440,9 +439,6 @@
     </div>
   </div>
 
-  <div class="partners-cta fade">
-    <a href="/#contact-us" class="btn-outline">Become a Partner →</a>
-  </div>
 </div>
 
 <!-- FOOTER -->
