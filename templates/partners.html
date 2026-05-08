@@ -97,7 +97,10 @@
     }
     .logo-subtext .dot { color: var(--cyan); }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
     .nav-links a {
       color: var(--muted); text-decoration: none;
       font-family: 'Space Mono', monospace; font-size: .82rem;
@@ -349,7 +352,6 @@
     <li><a href="/#contact-us">Contact Us</a></li>
     <li><a href="/partners">Our Partners</a></li>
   </ul>
-  <a href="/#contact-us" class="nav-btn">Become a Partner</a>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
@@ -361,7 +363,6 @@
   <a href="/#ecosystem" class="mobile-link">Ecosystem</a>
   <a href="/#contact-us" class="mobile-link">Contact Us</a>
   <a href="/partners" class="mobile-link">Our Partners</a>
-  <a href="/#contact-us" class="nav-btn mobile-link">Get Started</a>
 </div>
 
 <!-- PAGE HERO -->

@@ -511,6 +511,14 @@
     .foot-links a { color: var(--muted); text-decoration: none; font-size: .78rem; transition: color .2s; }
     .foot-links a:hover { color: var(--cyan); }
 
+    /* ── SCROLL PROGRESS BAR ── */
+    #scroll-bar {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 9999;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      width: 0%;
+      box-shadow: 0 0 8px rgba(0,212,255,.6);
+    }
+
     /* ── ANIMATIONS ── */
     .fade { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
     .fade.vis { opacity: 1; transform: translateY(0); }
@@ -555,6 +563,7 @@
 </head>
 <body>
 
+<div id="scroll-bar"></div>
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
@@ -909,6 +918,16 @@
 </footer>
 
 <script>
+  // Scroll progress bar
+  const scrollBar = document.getElementById('scroll-bar');
+  function updateScrollBar() {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    scrollBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrollBar, { passive: true });
+  window.addEventListener('touchmove', updateScrollBar, { passive: true });
+  window.addEventListener('touchend', updateScrollBar, { passive: true });
+
   // Custom cursor
   const cur = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
