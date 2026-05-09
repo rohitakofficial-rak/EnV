@@ -453,6 +453,13 @@
 </footer>
 
 <script>
+// Active nav highlight
+document.querySelectorAll('.nav-links a').forEach(a => {
+  if (a.getAttribute('href') === window.location.pathname) {
+    a.style.color = 'var(--cyan)';
+  }
+});
+
 // Hamburger menu
 const hamburger = document.getElementById('hamburger');
 const mobileNav = document.getElementById('mobile-nav');

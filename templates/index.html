@@ -986,10 +986,33 @@
   // Active nav
   const secs = document.querySelectorAll('section[id]');
   const nls  = document.querySelectorAll('.nav-links a');
+
+  // Highlight "Our Partners" if we're on /partners
+  if (window.location.pathname === '/partners') {
+    nls.forEach(a => {
+      if (a.getAttribute('href') === '/partners') a.style.color = 'var(--cyan)';
+    });
+  }
+
   window.addEventListener('scroll', () => {
+    const scrollBottom = window.scrollY + window.innerHeight;
+    const docHeight = document.body.scrollHeight;
     let cur = '';
+
     secs.forEach(s => { if (window.scrollY >= s.offsetTop - 140) cur = s.id; });
-    nls.forEach(a => { a.style.color = a.getAttribute('href') === '#'+cur ? 'var(--cyan)' : ''; });
+
+    // If near bottom of page, force-activate the last section (contact-us)
+    if (scrollBottom >= docHeight - 80) {
+      const lastSec = secs[secs.length - 1];
+      if (lastSec) cur = lastSec.id;
+    }
+
+    nls.forEach(a => {
+      const href = a.getAttribute('href');
+      // Skip external-page links from scroll-based highlighting
+      if (!href.startsWith('#')) return;
+      a.style.color = href === '#' + cur ? 'var(--cyan)' : '';
+    });
   });
 
   
